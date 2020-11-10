@@ -1,0 +1,24 @@
+PODS:
+  - EasyLayout-ios (1.0.1)
+  - R.swift (5.1.0):
+    - R.swift.Library (~> 5.1.0)
+  - R.swift.Library (5.1.0)
+
+DEPENDENCIES:
+  - EasyLayout-ios
+  - R.swift
+
+SPEC REPOS:
+  trunk:
+    - EasyLayout-ios
+    - R.swift
+    - R.swift.Library
+
+SPEC CHECKSUMS:
+  EasyLayout-ios: 78498c4bcdbf505c03a2006222e6563fdbfd1586
+  R.swift: 8cbc4fc69b740305b6a17c8a8ed968eb788962d9
+  R.swift.Library: fa85ce1e0d0b7e818cd9e080df910ba54d2776cc
+
+PODFILE CHECKSUM: d691410a20e7dc6febeee46a22d6ef3ef5948201
+
+COCOAPODS: 1.9.3
