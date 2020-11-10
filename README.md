@@ -1,5 +1,7 @@
 # Today
 
+## Generamba Module generation
+
 ```sh
-generamba gen Onboarding RazzClean
+generamba gen <module_name> RazzClean
 ```
