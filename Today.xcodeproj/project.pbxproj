@@ -7,34 +7,96 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		116070312B9DC627DF63F021 /* DayPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DD3E2F2508AC461AC15792 /* DayPresenter.swift */; };
+		1C4E984480C0D897F4F94B90 /* DayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AD464C078596D8A27F236F /* DayViewModel.swift */; };
+		287DE515E57EF61B2ADFFFE9 /* CalendarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07D1D1D21DA43F43DCB9C8A /* CalendarInteractor.swift */; };
+		29B3E16D231A273BF253DC88 /* DayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C924FCEFDA8C17C7109673F /* DayVC.swift */; };
 		93083D70536FBBC364FE0456 /* Pods_Today.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7542CDBD09FE249B609E6EE /* Pods_Today.framework */; };
+		9AA0CFB75BA5C9C76ABFFAC1 /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ED53F74F0ACDEA03466449 /* CalendarVC.swift */; };
+		A15C3A786FF007DF83EC1BD9 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C5AF82AAAD93FF0DFC1DC1 /* CalendarViewModel.swift */; };
+		B111D16E713088B3D2457F2B /* CalendarAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB9F1F06972F051A4E954C2 /* CalendarAssembler.swift */; };
+		BC02BAA8295E85BF45076C6A /* DayInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D50644FCF28F629E3C5E5CC /* DayInteractor.swift */; };
+		C72930877D2308C5E95F6CD7 /* CalendarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543A2C1ECAE4B95EE6F29417 /* CalendarPresenter.swift */; };
+		CE680233255B580D00A21A72 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE680232255B580D00A21A72 /* R.generated.swift */; };
+		CE680237255B584F00A21A72 /* R Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE680236255B584F00A21A72 /* R Typealias.swift */; };
+		CE68024E255B5E3200A21A72 /* MatterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE68024D255B5E3200A21A72 /* MatterView.swift */; };
 		CE97138A255B01A900C8BBDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE971389255B01A900C8BBDD /* AppDelegate.swift */; };
 		CE97138C255B01A900C8BBDD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE97138B255B01A900C8BBDD /* SceneDelegate.swift */; };
-		CE97138E255B01A900C8BBDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE97138D255B01A900C8BBDD /* ViewController.swift */; };
 		CE971393255B01AA00C8BBDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE971392255B01AA00C8BBDD /* Assets.xcassets */; };
 		CE971396255B01AA00C8BBDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE971394255B01AA00C8BBDD /* LaunchScreen.storyboard */; };
 		CE9713A6255B206C00C8BBDD /* AppLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713A5255B206C00C8BBDD /* AppLoader.swift */; };
-		CE9713AD255B40A900C8BBDD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713AC255B40A900C8BBDD /* R.generated.swift */; };
 		CE9713B1255B40ED00C8BBDD /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE9713B0255B40ED00C8BBDD /* Colors.xcassets */; };
 		CE9713B6255B45E100C8BBDD /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713B5255B45E100C8BBDD /* CheckBox.swift */; };
+		CE9713BF255B4E3100C8BBDD /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713BE255B4E3100C8BBDD /* Module.swift */; };
+		CE9713C2255B4EDC00C8BBDD /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713C1255B4EDC00C8BBDD /* AppCoordinator.swift */; };
+		CE9713CE255B4F6B00C8BBDD /* UIFont+StaticFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713C9255B4F6A00C8BBDD /* UIFont+StaticFonts.swift */; };
+		CE9713CF255B4F6B00C8BBDD /* UIButton+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713CA255B4F6A00C8BBDD /* UIButton+Background.swift */; };
+		CE9713D0255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713CB255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift */; };
+		CE9713D1255B4F6B00C8BBDD /* UIColor+HEX.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713CC255B4F6B00C8BBDD /* UIColor+HEX.swift */; };
+		CE9713D2255B4F6B00C8BBDD /* UIImage+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713CD255B4F6B00C8BBDD /* UIImage+Color.swift */; };
+		CE9713D9255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713D4255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift */; };
+		CE9713DA255B4FD500C8BBDD /* UIView+FirstResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713D5255B4FD500C8BBDD /* UIView+FirstResponder.swift */; };
+		CE9713DB255B4FD500C8BBDD /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713D6255B4FD500C8BBDD /* UITableView.swift */; };
+		CE9713DC255B4FD500C8BBDD /* UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713D7255B4FD500C8BBDD /* UICollectionView.swift */; };
+		CE9713DD255B4FD500C8BBDD /* UIView+EasyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713D8255B4FD500C8BBDD /* UIView+EasyLayout.swift */; };
+		CE9713E3255B501800C8BBDD /* Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713DF255B501800C8BBDD /* Codable.swift */; };
+		CE9713E4255B501800C8BBDD /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713E0255B501800C8BBDD /* Collection.swift */; };
+		CE9713E5255B501800C8BBDD /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713E1255B501800C8BBDD /* Date.swift */; };
+		CE9713E6255B501800C8BBDD /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713E2255B501800C8BBDD /* DateFormatter.swift */; };
+		CE9713E9255B503E00C8BBDD /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713E8255B503E00C8BBDD /* CollectionCell.swift */; };
+		CE9713EC255B504700C8BBDD /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713EB255B504700C8BBDD /* TableCell.swift */; };
+		CE9713EF255B51F600C8BBDD /* NSObject+ClassName.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713EE255B51F600C8BBDD /* NSObject+ClassName.swift */; };
+		CE9713F2255B522500C8BBDD /* ShimmeringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713F1255B522500C8BBDD /* ShimmeringView.swift */; };
+		D18D89133F84DC7261FADE04 /* DayAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9718F3D26D21B228814EE1BD /* DayAssembler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03ED53F74F0ACDEA03466449 /* CalendarVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
+		18DD3E2F2508AC461AC15792 /* DayPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayPresenter.swift; sourceTree = "<group>"; };
+		1FB9F1F06972F051A4E954C2 /* CalendarAssembler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarAssembler.swift; sourceTree = "<group>"; };
+		39C5AF82AAAD93FF0DFC1DC1 /* CalendarViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		3D50644FCF28F629E3C5E5CC /* DayInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayInteractor.swift; sourceTree = "<group>"; };
 		418DD5A9C2E03DBA3F8CE6C7 /* Pods-Today.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today.release.xcconfig"; path = "Target Support Files/Pods-Today/Pods-Today.release.xcconfig"; sourceTree = "<group>"; };
+		543A2C1ECAE4B95EE6F29417 /* CalendarPresenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarPresenter.swift; sourceTree = "<group>"; };
+		65AD464C078596D8A27F236F /* DayViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayViewModel.swift; sourceTree = "<group>"; };
+		6C924FCEFDA8C17C7109673F /* DayVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayVC.swift; sourceTree = "<group>"; };
+		9718F3D26D21B228814EE1BD /* DayAssembler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayAssembler.swift; sourceTree = "<group>"; };
 		A558BA78C13E3A4A75DBD0A9 /* Pods-Today.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today.debug.xcconfig"; path = "Target Support Files/Pods-Today/Pods-Today.debug.xcconfig"; sourceTree = "<group>"; };
+		CE680232255B580D00A21A72 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		CE680236255B584F00A21A72 /* R Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R Typealias.swift"; sourceTree = "<group>"; };
+		CE68024D255B5E3200A21A72 /* MatterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatterView.swift; sourceTree = "<group>"; };
 		CE971386255B01A900C8BBDD /* Today.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Today.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE971389255B01A900C8BBDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE97138B255B01A900C8BBDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CE97138D255B01A900C8BBDD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		CE971392255B01AA00C8BBDD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE971395255B01AA00C8BBDD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE971397255B01AA00C8BBDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE9713A3255B1F8B00C8BBDD /* Today.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Today.entitlements; sourceTree = "<group>"; };
 		CE9713A5255B206C00C8BBDD /* AppLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLoader.swift; sourceTree = "<group>"; };
-		CE9713AC255B40A900C8BBDD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = Resources/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		CE9713B0255B40ED00C8BBDD /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		CE9713B5255B45E100C8BBDD /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		CE9713BE255B4E3100C8BBDD /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		CE9713C1255B4EDC00C8BBDD /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		CE9713C9255B4F6A00C8BBDD /* UIFont+StaticFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+StaticFonts.swift"; sourceTree = "<group>"; };
+		CE9713CA255B4F6A00C8BBDD /* UIButton+Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Background.swift"; sourceTree = "<group>"; };
+		CE9713CB255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+HV.swift"; sourceTree = "<group>"; };
+		CE9713CC255B4F6B00C8BBDD /* UIColor+HEX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+HEX.swift"; sourceTree = "<group>"; };
+		CE9713CD255B4F6B00C8BBDD /* UIImage+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Color.swift"; sourceTree = "<group>"; };
+		CE9713D4255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ShimmerSubviews.swift"; sourceTree = "<group>"; };
+		CE9713D5255B4FD500C8BBDD /* UIView+FirstResponder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+FirstResponder.swift"; sourceTree = "<group>"; };
+		CE9713D6255B4FD500C8BBDD /* UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
+		CE9713D7255B4FD500C8BBDD /* UICollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionView.swift; sourceTree = "<group>"; };
+		CE9713D8255B4FD500C8BBDD /* UIView+EasyLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+EasyLayout.swift"; sourceTree = "<group>"; };
+		CE9713DF255B501800C8BBDD /* Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Codable.swift; sourceTree = "<group>"; };
+		CE9713E0255B501800C8BBDD /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		CE9713E1255B501800C8BBDD /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		CE9713E2255B501800C8BBDD /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		CE9713E8255B503E00C8BBDD /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
+		CE9713EB255B504700C8BBDD /* TableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
+		CE9713EE255B51F600C8BBDD /* NSObject+ClassName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+ClassName.swift"; sourceTree = "<group>"; };
+		CE9713F1255B522500C8BBDD /* ShimmeringView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmeringView.swift; sourceTree = "<group>"; };
 		D7542CDBD09FE249B609E6EE /* Pods_Today.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Today.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F07D1D1D21DA43F43DCB9C8A /* CalendarInteractor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +120,31 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		6E977EEDB2E32B654B213B8F /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				1FB9F1F06972F051A4E954C2 /* CalendarAssembler.swift */,
+				F07D1D1D21DA43F43DCB9C8A /* CalendarInteractor.swift */,
+				543A2C1ECAE4B95EE6F29417 /* CalendarPresenter.swift */,
+				03ED53F74F0ACDEA03466449 /* CalendarVC.swift */,
+				39C5AF82AAAD93FF0DFC1DC1 /* CalendarViewModel.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		9EEFFB74579607BC3CE1CEBE /* Day */ = {
+			isa = PBXGroup;
+			children = (
+				CE68024C255B5E0300A21A72 /* Views */,
+				9718F3D26D21B228814EE1BD /* DayAssembler.swift */,
+				3D50644FCF28F629E3C5E5CC /* DayInteractor.swift */,
+				18DD3E2F2508AC461AC15792 /* DayPresenter.swift */,
+				6C924FCEFDA8C17C7109673F /* DayVC.swift */,
+				65AD464C078596D8A27F236F /* DayViewModel.swift */,
+			);
+			path = Day;
+			sourceTree = "<group>";
+		};
 		A177525F654B0B019B59441A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -66,10 +153,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE68024C255B5E0300A21A72 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CE68024D255B5E3200A21A72 /* MatterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CE97137D255B01A900C8BBDD = {
 			isa = PBXGroup;
 			children = (
 				CE971388255B01A900C8BBDD /* Today */,
+				CE9713C5255B4EFB00C8BBDD /* Extensions */,
 				CE9713AF255B40B300C8BBDD /* Resources */,
 				CE971387255B01A900C8BBDD /* Products */,
 				37BCF2510638F6A977C6A2F5 /* Pods */,
@@ -88,13 +184,10 @@
 		CE971388255B01A900C8BBDD /* Today */ = {
 			isa = PBXGroup;
 			children = (
+				CE9713A3255B1F8B00C8BBDD /* Today.entitlements */,
+				CE9713BD255B4E2800C8BBDD /* Core */,
 				CE9713B4255B45C000C8BBDD /* Views */,
 				CE9713BB255B482F00C8BBDD /* Modules */,
-				CE9713A3255B1F8B00C8BBDD /* Today.entitlements */,
-				CE971389255B01A900C8BBDD /* AppDelegate.swift */,
-				CE9713A5255B206C00C8BBDD /* AppLoader.swift */,
-				CE97138B255B01A900C8BBDD /* SceneDelegate.swift */,
-				CE97138D255B01A900C8BBDD /* ViewController.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -103,7 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				CE971397255B01AA00C8BBDD /* Info.plist */,
-				CE9713AC255B40A900C8BBDD /* R.generated.swift */,
+				CE680232255B580D00A21A72 /* R.generated.swift */,
 				CE971392255B01AA00C8BBDD /* Assets.xcassets */,
 				CE9713B0255B40ED00C8BBDD /* Colors.xcassets */,
 				CE971394255B01AA00C8BBDD /* LaunchScreen.storyboard */,
@@ -115,6 +208,9 @@
 			isa = PBXGroup;
 			children = (
 				CE9713B5255B45E100C8BBDD /* CheckBox.swift */,
+				CE9713E8255B503E00C8BBDD /* CollectionCell.swift */,
+				CE9713EB255B504700C8BBDD /* TableCell.swift */,
+				CE9713F1255B522500C8BBDD /* ShimmeringView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -122,8 +218,61 @@
 		CE9713BB255B482F00C8BBDD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				CE9713C1255B4EDC00C8BBDD /* AppCoordinator.swift */,
+				9EEFFB74579607BC3CE1CEBE /* Day */,
+				6E977EEDB2E32B654B213B8F /* Calendar */,
 			);
 			path = Modules;
+			sourceTree = "<group>";
+		};
+		CE9713BD255B4E2800C8BBDD /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CE9713A5255B206C00C8BBDD /* AppLoader.swift */,
+				CE971389255B01A900C8BBDD /* AppDelegate.swift */,
+				CE97138B255B01A900C8BBDD /* SceneDelegate.swift */,
+				CE9713BE255B4E3100C8BBDD /* Module.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		CE9713C5255B4EFB00C8BBDD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE9713C8255B4F1200C8BBDD /* Foundation */,
+				CE9713C7255B4F0E00C8BBDD /* UI */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CE9713C7255B4F0E00C8BBDD /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CE9713CA255B4F6A00C8BBDD /* UIButton+Background.swift */,
+				CE9713CC255B4F6B00C8BBDD /* UIColor+HEX.swift */,
+				CE9713CB255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift */,
+				CE9713C9255B4F6A00C8BBDD /* UIFont+StaticFonts.swift */,
+				CE9713CD255B4F6B00C8BBDD /* UIImage+Color.swift */,
+				CE9713D7255B4FD500C8BBDD /* UICollectionView.swift */,
+				CE9713D6255B4FD500C8BBDD /* UITableView.swift */,
+				CE9713D8255B4FD500C8BBDD /* UIView+EasyLayout.swift */,
+				CE9713D5255B4FD500C8BBDD /* UIView+FirstResponder.swift */,
+				CE9713D4255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift */,
+				CE680236255B584F00A21A72 /* R Typealias.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		CE9713C8255B4F1200C8BBDD /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				CE9713DF255B501800C8BBDD /* Codable.swift */,
+				CE9713E0255B501800C8BBDD /* Collection.swift */,
+				CE9713E1255B501800C8BBDD /* Date.swift */,
+				CE9713E2255B501800C8BBDD /* DateFormatter.swift */,
+				CE9713EE255B51F600C8BBDD /* NSObject+ClassName.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,12 +410,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE97138E255B01A900C8BBDD /* ViewController.swift in Sources */,
+				CE9713DD255B4FD500C8BBDD /* UIView+EasyLayout.swift in Sources */,
+				CE9713F2255B522500C8BBDD /* ShimmeringView.swift in Sources */,
+				CE680233255B580D00A21A72 /* R.generated.swift in Sources */,
+				CE9713D0255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift in Sources */,
+				CE9713E9255B503E00C8BBDD /* CollectionCell.swift in Sources */,
+				CE9713EF255B51F600C8BBDD /* NSObject+ClassName.swift in Sources */,
 				CE97138A255B01A900C8BBDD /* AppDelegate.swift in Sources */,
+				CE9713DA255B4FD500C8BBDD /* UIView+FirstResponder.swift in Sources */,
+				CE9713E6255B501800C8BBDD /* DateFormatter.swift in Sources */,
+				CE9713C2255B4EDC00C8BBDD /* AppCoordinator.swift in Sources */,
 				CE9713B6255B45E100C8BBDD /* CheckBox.swift in Sources */,
-				CE9713AD255B40A900C8BBDD /* R.generated.swift in Sources */,
+				CE680237255B584F00A21A72 /* R Typealias.swift in Sources */,
+				CE9713E5255B501800C8BBDD /* Date.swift in Sources */,
+				CE9713EC255B504700C8BBDD /* TableCell.swift in Sources */,
 				CE9713A6255B206C00C8BBDD /* AppLoader.swift in Sources */,
+				CE9713D9255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift in Sources */,
+				CE9713BF255B4E3100C8BBDD /* Module.swift in Sources */,
+				CE9713DC255B4FD500C8BBDD /* UICollectionView.swift in Sources */,
 				CE97138C255B01A900C8BBDD /* SceneDelegate.swift in Sources */,
+				CE68024E255B5E3200A21A72 /* MatterView.swift in Sources */,
+				CE9713CE255B4F6B00C8BBDD /* UIFont+StaticFonts.swift in Sources */,
+				CE9713D1255B4F6B00C8BBDD /* UIColor+HEX.swift in Sources */,
+				D18D89133F84DC7261FADE04 /* DayAssembler.swift in Sources */,
+				CE9713E4255B501800C8BBDD /* Collection.swift in Sources */,
+				CE9713E3255B501800C8BBDD /* Codable.swift in Sources */,
+				CE9713CF255B4F6B00C8BBDD /* UIButton+Background.swift in Sources */,
+				BC02BAA8295E85BF45076C6A /* DayInteractor.swift in Sources */,
+				116070312B9DC627DF63F021 /* DayPresenter.swift in Sources */,
+				29B3E16D231A273BF253DC88 /* DayVC.swift in Sources */,
+				CE9713DB255B4FD500C8BBDD /* UITableView.swift in Sources */,
+				1C4E984480C0D897F4F94B90 /* DayViewModel.swift in Sources */,
+				CE9713D2255B4F6B00C8BBDD /* UIImage+Color.swift in Sources */,
+				B111D16E713088B3D2457F2B /* CalendarAssembler.swift in Sources */,
+				287DE515E57EF61B2ADFFFE9 /* CalendarInteractor.swift in Sources */,
+				C72930877D2308C5E95F6CD7 /* CalendarPresenter.swift in Sources */,
+				9AA0CFB75BA5C9C76ABFFAC1 /* CalendarVC.swift in Sources */,
+				A15C3A786FF007DF83EC1BD9 /* CalendarViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,14 +588,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Today/Today.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 896BE262HL;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.SealSoft.Today;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
@@ -431,14 +613,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Today/Today.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 896BE262HL;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.SealSoft.Today;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;

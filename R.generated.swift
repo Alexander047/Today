@@ -105,22 +105,18 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.color` struct is generated, and contains static references to 14 colors.
+  /// This `R.color` struct is generated, and contains static references to 13 colors.
   struct color {
-    /// Color `AccentColor`.
-    static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
     /// Color `button_background_disabled`.
     static let button_background_disabled = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_background_disabled")
     /// Color `button_background_highlited`.
     static let button_background_highlited = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_background_highlited")
     /// Color `button_background_normal`.
     static let button_background_normal = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_background_normal")
-    /// Color `button_border_disabled`.
-    static let button_border_disabled = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_disabled")
-    /// Color `button_border_highlited`.
-    static let button_border_highlited = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_highlited")
-    /// Color `button_border_normal`.
-    static let button_border_normal = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_normal")
+    /// Color `button_border_deselected`.
+    static let button_border_deselected = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_deselected")
+    /// Color `button_border_selected`.
+    static let button_border_selected = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_selected")
     /// Color `button_title_disabled`.
     static let button_title_disabled = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_title_disabled")
     /// Color `button_title_highlited`.
@@ -129,21 +125,14 @@ struct R: Rswift.Validatable {
     static let button_title_normal = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_title_normal")
     /// Color `page`.
     static let page = Rswift.ColorResource(bundle: R.hostingBundle, name: "page")
+    /// Color `separator`.
+    static let separator = Rswift.ColorResource(bundle: R.hostingBundle, name: "separator")
     /// Color `text_placeholder`.
     static let text_placeholder = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_placeholder")
     /// Color `text_primary`.
     static let text_primary = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_primary")
     /// Color `text_story`.
     static let text_story = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_story")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func accentColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.accentColor, compatibleWith: traitCollection)
-    }
-    #endif
 
     #if os(iOS) || os(tvOS)
     /// `UIColor(named: "button_background_disabled", bundle: ..., traitCollection: ...)`
@@ -173,29 +162,20 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "button_border_disabled", bundle: ..., traitCollection: ...)`
+    /// `UIColor(named: "button_border_deselected", bundle: ..., traitCollection: ...)`
     @available(tvOS 11.0, *)
     @available(iOS 11.0, *)
-    static func button_border_disabled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.button_border_disabled, compatibleWith: traitCollection)
+    static func button_border_deselected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.button_border_deselected, compatibleWith: traitCollection)
     }
     #endif
 
     #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "button_border_highlited", bundle: ..., traitCollection: ...)`
+    /// `UIColor(named: "button_border_selected", bundle: ..., traitCollection: ...)`
     @available(tvOS 11.0, *)
     @available(iOS 11.0, *)
-    static func button_border_highlited(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.button_border_highlited, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "button_border_normal", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func button_border_normal(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.button_border_normal, compatibleWith: traitCollection)
+    static func button_border_selected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.button_border_selected, compatibleWith: traitCollection)
     }
     #endif
 
@@ -236,6 +216,15 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "separator", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func separator(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.separator, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIColor(named: "text_placeholder", bundle: ..., traitCollection: ...)`
     @available(tvOS 11.0, *)
     @available(iOS 11.0, *)
@@ -269,6 +258,39 @@ struct R: Rswift.Validatable {
   struct entitlements {
     static let comAppleSecurityAppSandbox = true
     static let comAppleSecurityNetworkClient = true
+
+    fileprivate init() {}
+  }
+
+  /// This `R.image` struct is generated, and contains static references to 3 images.
+  struct image {
+    /// Image `calendar`.
+    static let calendar = Rswift.ImageResource(bundle: R.hostingBundle, name: "calendar")
+    /// Image `check_mark`.
+    static let check_mark = Rswift.ImageResource(bundle: R.hostingBundle, name: "check_mark")
+    /// Image `close`.
+    static let close = Rswift.ImageResource(bundle: R.hostingBundle, name: "close")
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "calendar", bundle: ..., traitCollection: ...)`
+    static func calendar(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.calendar, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "check_mark", bundle: ..., traitCollection: ...)`
+    static func check_mark(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.check_mark, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "close", bundle: ..., traitCollection: ...)`
+    static func close(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.close, compatibleWith: traitCollection)
+    }
+    #endif
 
     fileprivate init() {}
   }
