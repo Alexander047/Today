@@ -109,6 +109,10 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
         case .matter(let model):
             let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
             cell.view.setup(model)
+            cell.view.didChangeText = { [weak self] (text) in
+                self?.tableView.beginUpdates()
+                self?.tableView.endUpdates()
+            }
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
             cell.contentView.backgroundColor = .clear

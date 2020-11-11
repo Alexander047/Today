@@ -12,26 +12,35 @@ class MatterView: UIView {
     private lazy var checkBox: CheckBox = {
         let view = CheckBox()
         view.didToggleSelected = { [weak self] (selected) in
+            self?.updateText(selected)
             self?.didToggleSelected?(selected)
         }
         return view
     }()
     
-    private lazy var label: UILabel = {
+    private lazy var placeholderLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = .zero
+        label.text = "Новый пункт"
+        label.numberOfLines = 1
         label.font = .primary
+        label.textColor = Color.text_placeholder()
         return label
     }()
     
-    private lazy var separatorView: UIView = {
-        let view = UIView()
-        view.makeConstraints { $0.height.equalTo(1) }
-        view.backgroundColor = Color.separator()
-        return view
+    private lazy var textView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isScrollEnabled = false
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.font = .primary
+        textView.textColor = Color.text_primary()
+        return textView
     }()
     
     var didToggleSelected: ((Bool) -> Void)?
+    var didChangeText: ((String?) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +56,8 @@ class MatterView: UIView {
     private func setupUI() {
         backgroundColor = .clear
         addSubview(checkBox)
-        addSubview(label)
+        addSubview(placeholderLabel)
+        addSubview(textView)
     }
     
     private func setupConstraints() {
@@ -55,43 +65,54 @@ class MatterView: UIView {
             pin.leading.equalToSuperView().inset(16)
             pin.top.equalToSuperView().inset(8)
         }
-        label.makeConstraints { (pin) in
+        placeholderLabel.makeConstraints { (pin) in
             pin.leading.equalTo(checkBox.cm.trailing).offset(12)
             pin.top.equalToSuperView().inset(8)
             pin.trailing.equalToSuperView().inset(16)
         }
+        textView.makeConstraints { (pin) in
+            pin.leading.equalTo(checkBox.cm.trailing).offset(12)
+            pin.top.bottom.equalToSuperView().inset(8)
+            pin.trailing.equalToSuperView().inset(16)
+            pin.bottom.greaterOrEqualTo(placeholderLabel.cm.bottom)
+        }
     }
     
-    func setup(_ model: DayViewModel.Matter) {
-        separatorView.removeFromSuperview()
-        
-        checkBox.isSelected = model.isDone
-        let text = model.text ?? "Новый пункт"
-        let textColor = (model.text == nil) ? Color.text_placeholder() : Color.text_primary()
-        var attributes: [NSAttributedString.Key : Any] = [.foregroundColor: textColor ?? .black,
+    private func updatePlaceholder() {
+        let placeholderAlpha: CGFloat = textView.text.isEmpty == false ? 0 : 1
+        UIView.animate(withDuration: 0.1) { [weak self] in
+            self?.placeholderLabel.alpha = placeholderAlpha
+        }
+    }
+    
+    private func updateText(_ selected: Bool) {
+        textView.resignFirstResponder()
+        let text = textView.attributedText.string.isEmpty ? (textView.text ?? "") : textView.attributedText.string
+        var attributes: [NSAttributedString.Key : Any] = [.foregroundColor: Color.text_primary() ?? .black,
                                                           .font: UIFont.primary]
-        if model.isDone {
+        if selected {
             attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue
         }
         let attributedText = NSMutableAttributedString(string: text,
-                                                         attributes: attributes)
-        label.attributedText = attributedText
+                                                       attributes: attributes)
+        textView.attributedText = attributedText
+        textView.typingAttributes = attributes
+    }
+    
+    func setup(_ model: DayViewModel.Matter) {
         
-        if model.text == nil {
-            addSubview(separatorView)
-            separatorView.isHidden = false
-            separatorView.makeConstraints { (pin) in
-                pin.top.equalTo(label.cm.bottom).offset(16)
-                pin.leading.trailing.equalToSuperView().inset(16)
-                pin.bottom.equalToSuperView()
-            }
-        } else {
-            addSubview(separatorView)
-            separatorView.isHidden = true
-            separatorView.makeConstraints { (pin) in
-                pin.top.equalTo(label.cm.bottom).offset(7)
-                pin.leading.trailing.bottom.equalToSuperView()
-            }
-        }
+        checkBox.isSelected = model.isDone
+        textView.text = model.text
+        updatePlaceholder()
+        updateText(model.isDone)
+    }
+}
+
+extension MatterView: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print("### \(textView.text ?? "")")
+        updatePlaceholder()
+        didChangeText?(textView.text)
     }
 }
