@@ -10,7 +10,7 @@ import UIKit
 
 protocol DayPresenterInput: class {
     
-    func reloadData()
+    func reloadData(_ matters: [[Matter]])
 }
 
 private enum Constants {
@@ -26,24 +26,21 @@ final class DayPresenter {
     
     weak var view: View?
     
+    private func makeRows(_ matters: [Matter]) -> [ViewModel.Row] {
+        var rows = matters.map({ ViewModel.Row.matter(.init(isDone: $0.done, text: $0.text)) })
+        rows.append(ViewModel.Row.matter(.init(isDone: false, text: nil)))
+        return rows
+    }
 }
 
 // MARK: - Day Presenter Input
 extension DayPresenter: DayPresenterInput {
     
-    func reloadData() {
+    func reloadData(_ matters: [[Matter]]) {
         view?.reloadData(ViewModel(title: "Today", sections: [
-            .init(title: "Обязательно", rows: [
-                .matter(.init(isDone: true, text: "Сделать нормальные заметки")),
-                .matter(.init(isDone: false, text: nil))
-            ]),
-            .init(title: "Нужно", rows: [
-                .matter(.init(isDone: false, text: "Написать пример двухстрочного или трёхстрочного дела на макете самого лучшего приложения для ведения дел")),
-                .matter(.init(isDone: false, text: nil))
-            ]),
-            .init(title: "Хочется", rows: [
-                .matter(.init(isDone: false, text: nil))
-            ])
+            .init(header: "Обязательно", rows: makeRows(matters[safe: 0] ?? [])),
+            .init(header: "Нужно", rows: makeRows(matters[safe: 1] ?? [])),
+            .init(header: "Хочется", rows: makeRows(matters[safe: 2] ?? []))
         ]))
     }
 }

@@ -18,11 +18,16 @@ final class AppCoordinator {
     }
 
     public func start() {
+        NotificationCenter.default.addObserver(self, selector: #selector(receivedUpdates),  name: .NSPersistentStoreRemoteChange, object: nil)
         showDayModule()
     }
     
+    @objc public func receivedUpdates() {
+        dayModule?.receivedUpdates()
+    }
+    
     private func showDayModule() {
-        let module = DayAssembler.build(self, .init())
+        let module = DayAssembler.build(self, .init(date: Date().noon))
         let nc = UINavigationController(rootViewController: module.view)
         nc.navigationBar.prefersLargeTitles = true
         nc.navigationBar.largeTitleTextAttributes = [.foregroundColor: Color.text_primary() ?? UIColor.black,

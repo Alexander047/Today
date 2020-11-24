@@ -17,12 +17,16 @@ final class AppLoader {
     
     // MARK: - Private
     private func setupView() {
-        let window = Window(frame: UIScreen.main.bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
         window.makeKeyAndVisible()
         let appCoordinator = AppCoordinator(window)
         appCoordinator.start()
         self.appCoordinator = appCoordinator
+    }
+    
+    public func receivedUpdates() {
+        appCoordinator?.receivedUpdates()
     }
 }
 
@@ -38,11 +42,3 @@ extension AppLoader {
 // MARK: - AppCoordinatorOutput
 
 //extension AppLoader: AppCoordinatorOutput {}
-
-class Window: UIWindow {
-    
-    override func sendEvent(_ event: UIEvent) {
-        print("### \(event) \n$$$\(event.debugDescription)\n")
-        super.sendEvent(event)
-    }
-}

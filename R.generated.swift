@@ -254,10 +254,23 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.entitlements` struct is generated, and contains static references to 2 properties.
+  /// This `R.entitlements` struct is generated, and contains static references to 5 properties.
   struct entitlements {
+    static let apsEnvironment = infoPlistString(path: [], key: "aps-environment") ?? "development"
     static let comAppleSecurityAppSandbox = true
     static let comAppleSecurityNetworkClient = true
+
+    struct comAppleDeveloperIcloudContainerIdentifiers {
+      static let iCloudComSealSoftTodayApp = infoPlistString(path: ["com.apple.developer.icloud-container-identifiers"], key: "iCloud.com.SealSoft.Today-App") ?? "iCloud.com.SealSoft.Today-App"
+
+      fileprivate init() {}
+    }
+
+    struct comAppleDeveloperIcloudServices {
+      static let cloudKit = infoPlistString(path: ["com.apple.developer.icloud-services"], key: "CloudKit") ?? "CloudKit"
+
+      fileprivate init() {}
+    }
 
     fileprivate init() {}
   }

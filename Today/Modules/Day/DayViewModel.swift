@@ -8,20 +8,31 @@
 
 import Foundation
 
-struct DayViewModel {
+struct DayViewModel: DiffableViewModel {
     
-    struct Matter {
-        let isDone: Bool
-        let text: String?
+    class Matter: Equatable {
+        static func == (lhs: DayViewModel.Matter, rhs: DayViewModel.Matter) -> Bool {
+            return lhs === rhs
+        }
         
+        var isDone: Bool
+        var text: String?
+        
+        init(isDone: Bool, text: String?) {
+            self.isDone = isDone
+            self.text = text
+        }
     }
     
-    struct Section {
-        let title: String?
+    struct Section: DiffableSection, Equatable {
+        
+        typealias Header = String
+        
+        var header: String?
         let rows: [Row]
     }
     
-    enum Row {
+    enum Row: Equatable {
         case matter(Matter)
         case comment(String?)
     }

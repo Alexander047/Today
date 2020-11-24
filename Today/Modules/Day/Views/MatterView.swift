@@ -29,6 +29,7 @@ class MatterView: UIView {
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
+        textView.returnKeyType = .done
         textView.backgroundColor = .clear
         textView.delegate = self
         textView.isScrollEnabled = false
@@ -97,6 +98,7 @@ class MatterView: UIView {
                                                        attributes: attributes)
         textView.attributedText = attributedText
         textView.typingAttributes = attributes
+        textView.isEditable = !selected
     }
     
     func setup(_ model: DayViewModel.Matter) {
@@ -110,8 +112,15 @@ class MatterView: UIView {
 
 extension MatterView: UITextViewDelegate {
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
-        print("### \(textView.text ?? "")")
         updatePlaceholder()
         didChangeText?(textView.text)
     }

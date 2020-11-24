@@ -17,6 +17,7 @@ protocol DayViewOutput {
     
     func viewDidLoad()
     func didTapCalendar()
+    func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool)
 }
 
 private enum Constants {}
@@ -35,7 +36,7 @@ final class DayVC: UIViewController {
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .grouped)
         view.register(cellWithClass: TableCell<MatterView>.self)
-//        view.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
+        //        view.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 0, right: 0)
         view.insetsContentViewsToSafeArea = true
         view.backgroundColor = .clear
         view.separatorStyle = .none
@@ -76,9 +77,17 @@ final class DayVC: UIViewController {
         view.backgroundColor = Color.page()
         view.addSubview(tableView)
         view.addSubview(calendarButton)
-//        tableView.scrollRectToVisible(.zero, animated: false)
+        setupKeyboard()
     }
-
+    
+    private func setupKeyboard() {
+        tableView.keyboardDismissMode = .onDrag
+        NotificationCenter.default.addObserver(tableView,
+                                               selector: #selector(tableView.didChangeKeyboardFrame),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+    }
+    
     private func setupConstraints() {
         tableView.makeConstraints { $0.edges.equalToSuperView() }
         calendarButton.makeConstraints { $0.trailing.bottom.equalTo(view.cm.safeArea).inset(16) }
@@ -112,6 +121,17 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
             cell.view.didChangeText = { [weak self] (text) in
                 self?.tableView.beginUpdates()
                 self?.tableView.endUpdates()
+                if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
+                    matter.text = text
+                    self?.interactor.didEditMatter(at: indexPath, text: text, done: matter.isDone)
+                }
+            }
+            cell.view.didToggleSelected = { [weak self] (done) in
+                self?.view.endEditing(true)
+                if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
+                    matter.isDone = done
+                    self?.interactor.didEditMatter(at: indexPath, text: matter.text, done: done)
+                }
             }
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
@@ -127,7 +147,7 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
         let label = UILabel()
         label.font = .subtitle
         label.textColor = Color.text_story()
-        label.text = viewModel?.sections[safe: section]?.title
+        label.text = viewModel?.sections[safe: section]?.header
         header.addSubview(label)
         label.makeConstraints { (pin) in
             pin.leading.trailing.equalToSuperView().inset(16)
@@ -141,8 +161,14 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
 extension DayVC: DayViewInput {
     
     func reloadData(_ viewModel: ViewModel) {
+        let oldViewModel = self.viewModel
         self.viewModel = viewModel
         title = viewModel.title
-        tableView.reloadData()
+        if let oldViewModel = oldViewModel {
+            let diff = viewModel.diffWithOldModel(oldViewModel)
+            tableView.updateWithDiff(diff)
+        } else {
+            tableView.reloadData()
+        }
     }
 }

@@ -75,6 +75,14 @@ final class CalendarVC: UIViewController {
         view.backgroundColor = Color.page()
         view.addSubview(todayButton)
         view.addSubview(closeButton)
+        
+        
+        let label = UILabel()
+        label.text = "Колендарь"
+        view.addSubview(label)
+        label.makeConstraints { (pin) in
+            pin.center.equalToSuperView()
+        }
     }
 
     private func setupConstraints() {
