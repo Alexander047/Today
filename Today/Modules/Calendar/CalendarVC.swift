@@ -8,28 +8,40 @@
 
 import UIKit
 
-protocol CalendarViewInput: class {
-    
-    func reloadData(_ viewModel: CalendarViewModel)
-}
-
-protocol CalendarViewOutput {
+protocol CalendarViewOutput: class {
     
     func viewDidLoad()
 }
 
-private enum Constants {}
+private enum Constants {
+    
+    static let collectionInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    
+}
 
 final class CalendarVC: UIViewController {
     
-    typealias Input = CalendarViewInput
     typealias Output = CalendarViewOutput
-    typealias Interactor = CalendarInteractor
     typealias ViewModel = CalendarViewModel
     
-    private var viewModel: ViewModel?
+    private lazy var flowLayout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.headerReferenceSize = CGSize(width: view.frame.width - Constants.collectionInsets.horizontal, height: 40)
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
+        return layout
+    }()
     
-    private let interactor: Output
+    private lazy var collectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        view.register(cellWithClass: CollectionCell<UILabel>.self)
+        view.register(CalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeader")
+        view.contentInset = Constants.collectionInsets
+        view.backgroundColor = UIColor.systemGroupedBackground
+        view.dataSource = self
+        view.delegate = self
+        return view
+    }()
     
     private lazy var todayButton: UIButton = {
         let button = UIButton()
@@ -53,8 +65,14 @@ final class CalendarVC: UIViewController {
         return button
     }()
     
-    init(interactor: Output) {
-        self.interactor = interactor
+    private var viewModel: ViewModel?
+    
+    private let calendar = Calendar(identifier: .gregorian)
+    
+    private weak var output: Output?
+    
+    init(output: Output? = nil) {
+        self.output = output
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,24 +86,20 @@ final class CalendarVC: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        interactor.viewDidLoad()
+        loadData()
     }
     
     private func setupUI() {
         view.backgroundColor = Color.page()
+        view.addSubview(collectionView)
         view.addSubview(todayButton)
         view.addSubview(closeButton)
-        
-        
-        let label = UILabel()
-        label.text = "Колендарь"
-        view.addSubview(label)
-        label.makeConstraints { (pin) in
-            pin.center.equalToSuperView()
-        }
     }
 
     private func setupConstraints() {
+        collectionView.makeConstraints { (pin) in
+            pin.edges.equalToSuperView()
+        }
         todayButton.makeConstraints { (pin) in
             pin.leading.bottom.equalTo(view.cm.safeArea).inset(16)
         }
@@ -93,6 +107,23 @@ final class CalendarVC: UIViewController {
             pin.bottom.trailing.equalTo(view.cm.safeArea).inset(16)
             pin.leading.equalTo(todayButton.cm.trailing).offset(12)
         }
+    }
+    
+    private func loadData() {
+        let matters = loadMatters()
+        let groupedMatters = groupMatters(matters)
+        
+    }
+    
+    private func loadMatters() -> [Matter] {
+        return Matter.fetchAll()
+    }
+    
+    private func groupMatters(_ matters: [Matter]) -> [[Matter]] {
+        return Dictionary(grouping: matters, by: { $0.section })
+            .values
+            .sorted(by: { $0[0].section < $1[0].section })
+            .map({ $0.sorted(by: { $0.order < $1.order }) })
     }
     
     // MARK: - Actions
@@ -107,10 +138,46 @@ final class CalendarVC: UIViewController {
     }
 }
 
-// MARK: - Calendar View Input
-extension CalendarVC: CalendarViewInput {
+extension CalendarVC: UICollectionViewDataSource {
     
-    func reloadData(_ viewModel: ViewModel) {
-        self.viewModel = viewModel
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(withClass: CollectionCell<UILabel>.self, for: indexPath)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let width = collectionView.frame.width - Constants.collectionInsets.horizontal
+        let height = CalendarHeaderView.height(width)
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeader", for: indexPath) as? CalendarHeaderView {
+            
+            return sectionHeader
+        }
+        return UICollectionReusableView()
+    }
+}
+
+extension CalendarVC: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
+}
+
+extension CalendarVC: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width - 40) / 2
+        return CGSize(width: width, height: width)
     }
 }

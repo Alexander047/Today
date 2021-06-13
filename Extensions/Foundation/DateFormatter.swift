@@ -10,11 +10,9 @@ import Foundation
 
 extension DateFormatter {
     
-    static let pvzgServer = DateFormatter.formatter(with: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
     static let pickupReviewDate = DateFormatter.formatter(with: "dd MMMM yyyy")
     static let dateByDots = DateFormatter.formatter(with: "dd.MM.yyyy")
     static let time = DateFormatter.formatter(with: "HH:mm")
-    static let dateWithMilliseconds = DateFormatter.formatter(with: "yyyy-MM-dd'T'HH:mm:ss.SSS")
     
     static let transactionServer = DateFormatter.formatter(with: "yyyy-MM-dd'T'HH:mm:ss")
     static let transactionsInterval = DateFormatter.formatterUTC(with: "yyyy-MM-dd")

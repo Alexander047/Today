@@ -105,7 +105,7 @@ struct R: Rswift.Validatable {
   }
   #endif
 
-  /// This `R.color` struct is generated, and contains static references to 13 colors.
+  /// This `R.color` struct is generated, and contains static references to 16 colors.
   struct color {
     /// Color `button_background_disabled`.
     static let button_background_disabled = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_background_disabled")
@@ -115,6 +115,8 @@ struct R: Rswift.Validatable {
     static let button_background_normal = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_background_normal")
     /// Color `button_border_deselected`.
     static let button_border_deselected = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_deselected")
+    /// Color `button_border_distructive`.
+    static let button_border_distructive = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_distructive")
     /// Color `button_border_selected`.
     static let button_border_selected = Rswift.ColorResource(bundle: R.hostingBundle, name: "button_border_selected")
     /// Color `button_title_disabled`.
@@ -127,6 +129,10 @@ struct R: Rswift.Validatable {
     static let page = Rswift.ColorResource(bundle: R.hostingBundle, name: "page")
     /// Color `separator`.
     static let separator = Rswift.ColorResource(bundle: R.hostingBundle, name: "separator")
+    /// Color `text_destructive`.
+    static let text_destructive = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_destructive")
+    /// Color `text_empty`.
+    static let text_empty = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_empty")
     /// Color `text_placeholder`.
     static let text_placeholder = Rswift.ColorResource(bundle: R.hostingBundle, name: "text_placeholder")
     /// Color `text_primary`.
@@ -167,6 +173,15 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func button_border_deselected(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.button_border_deselected, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "button_border_distructive", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func button_border_distructive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.button_border_distructive, compatibleWith: traitCollection)
     }
     #endif
 
@@ -221,6 +236,24 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func separator(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.separator, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "text_destructive", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func text_destructive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.text_destructive, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "text_empty", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func text_empty(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.text_empty, compatibleWith: traitCollection)
     }
     #endif
 

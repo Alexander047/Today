@@ -10,6 +10,7 @@ import Foundation
 
 protocol DayInteractorInput: class {
     func receivedUpdates()
+    func reloadForDate(_ date: Date)
 }
 
 protocol DayInteractorOutput: class {
@@ -19,7 +20,7 @@ protocol DayInteractorOutput: class {
 final class DayInteractor {
     
     struct Params {
-        let date: Date
+        var date: Date
     }
     
     typealias Input = DayInteractorInput
@@ -28,7 +29,7 @@ final class DayInteractor {
     
     private weak var output: Output?
     private let presenter: Presenter
-    private let params: Params
+    private var params: Params
     
     private var groupedMatters: [[Matter]] = []
     
@@ -39,7 +40,7 @@ final class DayInteractor {
     }
     
     private func loadMatters() -> [Matter] {
-        return Matter.fetchAll()
+        return Matter.fetch(params.date)
     }
     
     private func groupMatters(_ matters: [Matter]) -> [[Matter]] {
@@ -77,6 +78,14 @@ extension DayInteractor: DayInteractorInput {
             self.groupedMatters = self.groupMatters(self.loadMatters())
             self.presenter.reloadData(self.groupedMatters)
         }
+    }
+    
+    func reloadForDate(_ date: Date) {
+        params.date = date
+        let matters = loadMatters()
+        groupedMatters = groupMatters(matters)
+        presenter.reloadData(groupedMatters)
+        print("###\n\n", matters.compactMap({ $0.text }).joined(separator: "\n\n"), "\n\n")
     }
 }
 

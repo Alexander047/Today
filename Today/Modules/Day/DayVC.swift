@@ -119,11 +119,12 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
             cell.view.setup(model)
             cell.view.didChangeText = { [weak self] (text) in
+                let cleanText = text?.trimmingCharacters(in: .whitespacesAndNewlines)
                 self?.tableView.beginUpdates()
                 self?.tableView.endUpdates()
                 if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
-                    matter.text = text
-                    self?.interactor.didEditMatter(at: indexPath, text: text, done: matter.isDone)
+                    matter.text = cleanText
+                    self?.interactor.didEditMatter(at: indexPath, text: cleanText, done: matter.isDone)
                 }
             }
             cell.view.didToggleSelected = { [weak self] (done) in

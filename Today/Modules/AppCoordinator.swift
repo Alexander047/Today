@@ -40,11 +40,14 @@ final class AppCoordinator {
 extension AppCoordinator: DayInteractorOutput {
     
     func didTapCalendar() {
-        let module = CalendarAssembler.build(output: self, params: .init())
-        window?.rootViewController?.present(module.view, animated: true)
+        let vc = CalendarVC(output: self)
+        window?.rootViewController?.present(vc, animated: true)
     }
 }
 
-extension AppCoordinator: CalendarInteractorOutput {
+extension AppCoordinator: CalendarViewOutput {
     
+    func viewDidLoad() {
+        
+    }
 }
