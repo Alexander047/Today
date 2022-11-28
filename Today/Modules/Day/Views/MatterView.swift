@@ -41,7 +41,9 @@ class MatterView: UIView {
     }()
     
     var didToggleSelected: ((Bool) -> Void)?
-    var didChangeText: ((String?) -> Void)?
+    var didBeginEditing: (() -> Void)?
+    var didChange: ((String?) -> Void)?
+    var didEndEditing: ((String?) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -120,8 +122,16 @@ extension MatterView: UITextViewDelegate {
         return true
     }
     
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        didBeginEditing?()
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        didEndEditing?(textView.text)
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholder()
-        didChangeText?(textView.text)
+        didChange?(textView.text)
     }
 }

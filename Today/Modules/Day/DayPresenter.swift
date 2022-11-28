@@ -8,9 +8,9 @@
 
 import UIKit
 
-protocol DayPresenterInput: class {
+protocol DayPresenterInput: AnyObject {
     
-    func reloadData(_ matters: [[Matter]])
+    func reloadData(_ matters: [MatterType: [Matter]])
 }
 
 private enum Constants {
@@ -27,8 +27,20 @@ final class DayPresenter {
     weak var view: View?
     
     private func makeRows(_ matters: [Matter]) -> [ViewModel.Row] {
-        var rows = matters.map({ ViewModel.Row.matter(.init(isDone: $0.done, text: $0.text)) })
-        rows.append(ViewModel.Row.matter(.init(isDone: false, text: nil)))
+        var rows = matters.map({
+            ViewModel.Row.matter(
+                .init(id: $0.id, isDone: $0.done, text: $0.text)
+            )
+        })
+        rows.append(
+            .matter(
+                .init(
+                    id: ObjectIdentifier(EmptyMatterUUID(UUID())),
+                    isDone: false,
+                    text: nil
+                )
+            )
+        )
         return rows
     }
 }
@@ -36,11 +48,41 @@ final class DayPresenter {
 // MARK: - Day Presenter Input
 extension DayPresenter: DayPresenterInput {
     
-    func reloadData(_ matters: [[Matter]]) {
+    func reloadData(_ matters: [MatterType: [Matter]]) {
+        var rowsNecessary = makeRows([])
+        var rowsNeeded = makeRows([])
+        var rowsWanted = makeRows([])
+        
+        if let matters = matters[.necessary] {
+            rowsNecessary = makeRows(matters)
+        }
+        if let matters = matters[.needed] {
+            rowsNeeded = makeRows(matters)
+        }
+        if let matters = matters[.wanted] {
+            rowsWanted = makeRows(matters)
+        }
         view?.reloadData(ViewModel(title: "Today", sections: [
-            .init(header: "Обязательно", rows: makeRows(matters[safe: 0] ?? [])),
-            .init(header: "Нужно", rows: makeRows(matters[safe: 1] ?? [])),
-            .init(header: "Хочется", rows: makeRows(matters[safe: 2] ?? []))
+            .init(header: "Обязательно", rows: rowsNecessary),
+            .init(header: "Нужно", rows: rowsNeeded),
+            .init(header: "Хочется", rows: rowsWanted)
         ]))
+    }
+}
+
+final class EmptyMatterUUID: Hashable {
+    
+    let id: UUID
+    
+    init(_ id: UUID) {
+        self.id = id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: EmptyMatterUUID, rhs: EmptyMatterUUID) -> Bool {
+        return lhs.id == rhs.id
     }
 }

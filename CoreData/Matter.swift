@@ -34,3 +34,9 @@ class Matter: NSManagedObject {
         try? viewContext.save()
     }
 }
+
+enum MatterType: Int16 {
+    case necessary = 0
+    case needed = 1
+    case wanted = 2
+}

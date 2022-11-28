@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol DayViewInput: class {
+protocol DayViewInput: AnyObject {
     
     func reloadData(_ viewModel: DayViewModel)
 }
@@ -21,6 +21,9 @@ protocol DayViewOutput {
 }
 
 private enum Constants {}
+
+private typealias Section = DayViewModel.Section
+private typealias Row = DayViewModel.Row
 
 final class DayVC: UIViewController {
     
@@ -40,7 +43,6 @@ final class DayVC: UIViewController {
         view.insetsContentViewsToSafeArea = true
         view.backgroundColor = .clear
         view.separatorStyle = .none
-        view.dataSource = self
         view.delegate = self
         return view
     }()
@@ -53,6 +55,50 @@ final class DayVC: UIViewController {
         button.layer.cornerRadius = 30
         button.makeConstraints { $0.size.equalTo(CGSize(width: 60, height: 60)) }
         return button
+    }()
+    
+    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Row> = {
+        let dataSource = UITableViewDiffableDataSource<Section, Row>(tableView: tableView) { (tableView, indexPath, row) in
+            
+            switch row {
+            case .matter(let model):
+                let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
+                cell.view.setup(model)
+                cell.view.didBeginEditing = { [weak self] in
+                    
+                }
+                cell.view.didChange = { [weak self] text in
+                    self?.tableView.beginUpdates()
+                    self?.tableView.endUpdates()
+                }
+                cell.view.didEndEditing = { [weak self] (text) in
+                    let cleanText = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
+                        matter.text = cleanText
+                        self?.interactor.didEditMatter(at: indexPath, text: cleanText, done: matter.isDone)
+                    }
+                }
+                cell.view.didToggleSelected = { [weak self] (done) in
+                    self?.view.endEditing(true)
+                    if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
+                        matter.isDone = done
+                        self?.interactor.didEditMatter(at: indexPath, text: matter.text, done: done)
+                    }
+                }
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                cell.contentView.backgroundColor = .clear
+                return cell
+            case .comment:
+                let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
+                cell.view.setup(DayViewModel.Matter(id: ObjectIdentifier(cell), isDone: false, text: nil))
+                cell.selectionStyle = .none
+                cell.backgroundColor = .clear
+                cell.contentView.backgroundColor = .clear
+                return cell
+            }
+        }
+        return dataSource
     }()
     
     init(interactor: Output) {
@@ -100,48 +146,15 @@ final class DayVC: UIViewController {
 }
 
 // MARK: - Day View Input
-extension DayVC: UITableViewDataSource, UITableViewDelegate {
+extension DayVC: UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel?.sections.count ?? .zero
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return viewModel?.sections.count ?? .zero
+//    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return  viewModel?.sections[safe: section]?.rows.count ?? .zero
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let row = viewModel?.sections[safe: indexPath.section]?.rows[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
-        switch row {
-        case .matter(let model):
-            let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
-            cell.view.setup(model)
-            cell.view.didChangeText = { [weak self] (text) in
-                let cleanText = text?.trimmingCharacters(in: .whitespacesAndNewlines)
-                self?.tableView.beginUpdates()
-                self?.tableView.endUpdates()
-                if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
-                    matter.text = cleanText
-                    self?.interactor.didEditMatter(at: indexPath, text: cleanText, done: matter.isDone)
-                }
-            }
-            cell.view.didToggleSelected = { [weak self] (done) in
-                self?.view.endEditing(true)
-                if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
-                    matter.isDone = done
-                    self?.interactor.didEditMatter(at: indexPath, text: matter.text, done: done)
-                }
-            }
-            cell.selectionStyle = .none
-            cell.backgroundColor = .clear
-            cell.contentView.backgroundColor = .clear
-            return cell
-        case .comment:
-            return UITableViewCell()
-        }
-    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return  viewModel?.sections[safe: section]?.rows.count ?? .zero
+//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView()
@@ -162,14 +175,24 @@ extension DayVC: UITableViewDataSource, UITableViewDelegate {
 extension DayVC: DayViewInput {
     
     func reloadData(_ viewModel: ViewModel) {
-        let oldViewModel = self.viewModel
+        let isInitial = self.viewModel == nil
+        guard viewModel != self.viewModel else { return }
         self.viewModel = viewModel
         title = viewModel.title
-        if let oldViewModel = oldViewModel {
-            let diff = viewModel.diffWithOldModel(oldViewModel)
-            tableView.updateWithDiff(diff)
-        } else {
-            tableView.reloadData()
+        
+        let snapshot = snapshotForCurrentState()
+        tableViewDataSource.apply(snapshot, animatingDifferences: !isInitial)
+    }
+}
+
+extension DayVC {
+    private func snapshotForCurrentState() -> NSDiffableDataSourceSnapshot<Section, Row> {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Row>()
+        guard let viewModel = viewModel else { return snapshot }
+        for section in viewModel.sections {
+            snapshot.appendSections([section])
+            snapshot.appendItems(section.rows)
         }
+        return snapshot
     }
 }

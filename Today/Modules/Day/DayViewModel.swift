@@ -8,33 +8,43 @@
 
 import Foundation
 
-struct DayViewModel: DiffableViewModel {
+struct DayViewModel: DiffableViewModel, Equatable {
     
-    class Matter: Equatable {
+    class Matter: Hashable {
+        
         static func == (lhs: DayViewModel.Matter, rhs: DayViewModel.Matter) -> Bool {
-            return lhs === rhs
+            return lhs.id == rhs.id
         }
         
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+        
+        let id: ObjectIdentifier
         var isDone: Bool
         var text: String?
         
-        init(isDone: Bool, text: String?) {
+        init(id: ObjectIdentifier, isDone: Bool, text: String?) {
+            self.id = id
             self.isDone = isDone
             self.text = text
         }
     }
     
-    struct Section: DiffableSection, Equatable {
-        
-        typealias Header = String
+    struct Comment: Hashable {
+        let id: UUID
+        let text: String?
+    }
+    
+    struct Section: DiffableSection, Hashable {
         
         var header: String?
         let rows: [Row]
     }
     
-    enum Row: Equatable {
+    enum Row: Hashable {
         case matter(Matter)
-        case comment(String?)
+        case comment(Comment)
     }
     
     let title: String?

@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol DayInteractorInput: class {
+protocol DayInteractorInput: AnyObject {
     func receivedUpdates()
     func reloadForDate(_ date: Date)
 }
 
-protocol DayInteractorOutput: class {
+protocol DayInteractorOutput: AnyObject {
     func didTapCalendar()
 }
 
@@ -31,7 +31,7 @@ final class DayInteractor {
     private let presenter: Presenter
     private var params: Params
     
-    private var groupedMatters: [[Matter]] = []
+    private var groupedMatters: [MatterType: [Matter]] = [:]
     
     init(output: Output?, presenter: Presenter, params: Params) {
         self.output = output
@@ -43,11 +43,15 @@ final class DayInteractor {
         return Matter.fetch(params.date)
     }
     
-    private func groupMatters(_ matters: [Matter]) -> [[Matter]] {
-        return Dictionary(grouping: matters, by: { $0.section })
-            .values
-            .sorted(by: { $0[0].section < $1[0].section })
-            .map({ $0.sorted(by: { $0.order < $1.order }) })
+    private func groupMatters(_ matters: [Matter]) -> [MatterType: [Matter]] {
+        let dict = Dictionary(grouping: matters, by: { $0.section })
+        var mattersDict: [MatterType: [Matter]] = [:]
+        for (key, value) in dict {
+            if let type = MatterType(rawValue: key) {
+                mattersDict[type] = value.sorted(by: { $0.order < $1.order })
+            }
+        }
+        return mattersDict
     }
     
     @discardableResult private func makeMatter(_ text: String, _ date: Date, _ order: Int, _ section: Int) -> Matter {
@@ -75,8 +79,11 @@ extension DayInteractor: DayInteractorInput {
     func receivedUpdates() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.groupedMatters = self.groupMatters(self.loadMatters())
-            self.presenter.reloadData(self.groupedMatters)
+            let newMatters = self.groupMatters(self.loadMatters())
+            if newMatters != self.groupedMatters {
+                self.groupedMatters = newMatters
+                self.presenter.reloadData(self.groupedMatters)
+            }
         }
     }
     
@@ -104,18 +111,19 @@ extension DayInteractor: DayViewOutput {
     }
     
     func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool) {
-        if let matter = groupMatters(loadMatters())[safe: indexPath.section]?[safe: indexPath.row] {
+        if
+            let matterType = MatterType(rawValue: Int16(indexPath.section)),
+            let matter = groupMatters(loadMatters())[matterType]?[safe: indexPath.row]
+        {
             if text?.isEmpty == false {
                 matter.text = text ?? ""
                 matter.done = done
-                saveChanges()
             } else {
                 deleteMatter(matter)
             }
         } else if let text = text, !text.isEmpty {
             makeMatter(text, Date().noon, indexPath.row, indexPath.section)
-            saveChanges()
-//            presenter.reloadData(groupMatters(loadMatters()))
         }
+        saveChanges()
     }
 }

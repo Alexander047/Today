@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol CalendarViewOutput: class {
+protocol CalendarViewOutput: AnyObject {
     
     func viewDidLoad()
 }
