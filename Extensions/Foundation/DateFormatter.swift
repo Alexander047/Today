@@ -10,6 +10,8 @@ import Foundation
 
 extension DateFormatter {
     
+    static let calendarMonthDate = DateFormatter.formatter(with: "MMMM yyyy")
+    static let mainTitleDate = DateFormatter.formatter(with: "dd MMMM")
     static let pickupReviewDate = DateFormatter.formatter(with: "dd MMMM yyyy")
     static let dateByDots = DateFormatter.formatter(with: "dd.MM.yyyy")
     static let time = DateFormatter.formatter(with: "HH:mm")

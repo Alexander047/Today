@@ -50,4 +50,8 @@ extension AppCoordinator: CalendarViewOutput {
     func viewDidLoad() {
         
     }
+    
+    func didSelectDate(_ date: Date) {
+        dayModule?.reloadForDate(date)
+    }
 }

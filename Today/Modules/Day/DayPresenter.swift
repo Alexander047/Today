@@ -10,7 +10,7 @@ import UIKit
 
 protocol DayPresenterInput: AnyObject {
     
-    func reloadData(_ matters: [MatterType: [Matter]])
+    func reloadData(title: String?, matters: [MatterType: [Matter]])
 }
 
 private enum Constants {
@@ -48,7 +48,8 @@ final class DayPresenter {
 // MARK: - Day Presenter Input
 extension DayPresenter: DayPresenterInput {
     
-    func reloadData(_ matters: [MatterType: [Matter]]) {
+    func reloadData(title: String?, matters: [MatterType: [Matter]]) {
+        let title = title ?? "Today"
         var rowsNecessary = makeRows([])
         var rowsNeeded = makeRows([])
         var rowsWanted = makeRows([])
@@ -62,7 +63,7 @@ extension DayPresenter: DayPresenterInput {
         if let matters = matters[.wanted] {
             rowsWanted = makeRows(matters)
         }
-        view?.reloadData(ViewModel(title: "Today", sections: [
+        view?.reloadData(ViewModel(title: title, sections: [
             .init(header: "Обязательно", rows: rowsNecessary),
             .init(header: "Нужно", rows: rowsNeeded),
             .init(header: "Хочется", rows: rowsWanted)

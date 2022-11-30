@@ -71,6 +71,13 @@ final class DayInteractor {
     private func saveChanges() {
         try? AppDelegate.viewContext.save()
     }
+    
+    private func titleFromDate() -> String {
+        if params.date == Date().noon {
+            return "Today"
+        }
+        return DateFormatter.mainTitleDate.string(from: params.date)
+    }
 }
 
 // MARK: - Day Interactor Input
@@ -82,7 +89,10 @@ extension DayInteractor: DayInteractorInput {
             let newMatters = self.groupMatters(self.loadMatters())
             if newMatters != self.groupedMatters {
                 self.groupedMatters = newMatters
-                self.presenter.reloadData(self.groupedMatters)
+                self.presenter.reloadData(
+                    title: self.titleFromDate(),
+                    matters: self.groupedMatters
+                )
             }
         }
     }
@@ -91,7 +101,10 @@ extension DayInteractor: DayInteractorInput {
         params.date = date
         let matters = loadMatters()
         groupedMatters = groupMatters(matters)
-        presenter.reloadData(groupedMatters)
+        presenter.reloadData(
+            title: titleFromDate(),
+            matters: groupedMatters
+        )
         print("###\n\n", matters.compactMap({ $0.text }).joined(separator: "\n\n"), "\n\n")
     }
 }
@@ -102,7 +115,10 @@ extension DayInteractor: DayViewOutput {
     func viewDidLoad() {
         let matters = loadMatters()
         groupedMatters = groupMatters(matters)
-        presenter.reloadData(groupedMatters)
+        presenter.reloadData(
+            title: titleFromDate(),
+            matters: groupedMatters
+        )
         print("###\n\n", matters.compactMap({ $0.text }).joined(separator: "\n\n"), "\n\n")
     }
     
