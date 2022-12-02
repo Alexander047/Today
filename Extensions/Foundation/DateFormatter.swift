@@ -25,13 +25,14 @@ extension DateFormatter {
     
     static func formatter(with dateFormat: String) -> DateFormatter {
         let formatter = DateFormatter()
+        formatter.locale = Locale.current
         formatter.dateFormat = dateFormat
         return formatter
     }
     
     static func formatterUTC(with dateFormat: String) -> DateFormatter {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.locale = Locale.current
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.dateFormat = dateFormat
         return formatter

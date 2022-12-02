@@ -35,7 +35,7 @@ class Matter: NSManagedObject {
     }
 }
 
-enum MatterType: Int16 {
+enum MatterType: Int16, Hashable {
     case necessary = 0
     case needed = 1
     case wanted = 2

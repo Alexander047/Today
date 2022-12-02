@@ -30,9 +30,7 @@ extension CalendarViewModel {
     }
     
     struct Day {
-        let day: Int
-        let month: Int
-        let year: Int
+        let dateComponents: Date.DateComponents
         
         let isWeekend: Bool
         let hasMatters: Bool

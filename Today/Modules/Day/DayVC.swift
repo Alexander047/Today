@@ -89,9 +89,24 @@ final class DayVC: UIViewController {
                 cell.backgroundColor = .clear
                 cell.contentView.backgroundColor = .clear
                 return cell
-            case .comment:
+            case .newMatter(let model):
                 let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
-                cell.view.setup(DayViewModel.Matter(id: ObjectIdentifier(cell), isDone: false, text: nil))
+                cell.view.setup(
+                    DayViewModel.Matter(
+                        id: ObjectIdentifier(cell),
+                        isDone: false,
+                        text: nil,
+                        sectionType: model.sectionType
+                    )
+                )
+                cell.view.didChange = { [weak self] text in
+                    self?.tableView.beginUpdates()
+                    self?.tableView.endUpdates()
+                }
+                cell.view.didEndEditing = { [weak self] (text) in
+                    let cleanText = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    self?.interactor.didEditMatter(at: indexPath, text: cleanText, done: false)
+                }
                 cell.selectionStyle = .none
                 cell.backgroundColor = .clear
                 cell.contentView.backgroundColor = .clear
@@ -181,7 +196,7 @@ extension DayVC: DayViewInput {
         title = viewModel.title
         
         let snapshot = snapshotForCurrentState()
-        tableViewDataSource.apply(snapshot, animatingDifferences: !isInitial)
+        tableViewDataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 

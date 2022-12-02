@@ -26,20 +26,19 @@ final class DayPresenter {
     
     weak var view: View?
     
-    private func makeRows(_ matters: [Matter]) -> [ViewModel.Row] {
+    private func makeRows(_ matters: [Matter], type: MatterType) -> [ViewModel.Row] {
         var rows = matters.map({
             ViewModel.Row.matter(
-                .init(id: $0.id, isDone: $0.done, text: $0.text)
+                .init(
+                    id: $0.id,
+                    isDone: $0.done,
+                    text: $0.text,
+                    sectionType: .init(type)
+                )
             )
         })
         rows.append(
-            .matter(
-                .init(
-                    id: ObjectIdentifier(EmptyMatterUUID(UUID())),
-                    isDone: false,
-                    text: nil
-                )
-            )
+            .newMatter(.init(sectionType: .init(type)))
         )
         return rows
     }
@@ -50,23 +49,23 @@ extension DayPresenter: DayPresenterInput {
     
     func reloadData(title: String?, matters: [MatterType: [Matter]]) {
         let title = title ?? "Today"
-        var rowsNecessary = makeRows([])
-        var rowsNeeded = makeRows([])
-        var rowsWanted = makeRows([])
+        var rowsNecessary = makeRows([], type: .necessary)
+        var rowsNeeded = makeRows([], type: .needed)
+        var rowsWanted = makeRows([], type: .wanted)
         
         if let matters = matters[.necessary] {
-            rowsNecessary = makeRows(matters)
+            rowsNecessary = makeRows(matters, type: .necessary)
         }
         if let matters = matters[.needed] {
-            rowsNeeded = makeRows(matters)
+            rowsNeeded = makeRows(matters, type: .needed)
         }
         if let matters = matters[.wanted] {
-            rowsWanted = makeRows(matters)
+            rowsWanted = makeRows(matters, type: .wanted)
         }
         view?.reloadData(ViewModel(title: title, sections: [
-            .init(header: "Обязательно", rows: rowsNecessary),
-            .init(header: "Нужно", rows: rowsNeeded),
-            .init(header: "Хочется", rows: rowsWanted)
+            .init(header: "Обязательно", rows: rowsNecessary, type: .necessery),
+            .init(header: "Нужно", rows: rowsNeeded, type: .needed),
+            .init(header: "Хочется", rows: rowsWanted, type: .wanted)
         ]))
     }
 }

@@ -23,28 +23,53 @@ struct DayViewModel: DiffableViewModel, Equatable {
         let id: ObjectIdentifier
         var isDone: Bool
         var text: String?
+        let sectionType: SectionType
         
-        init(id: ObjectIdentifier, isDone: Bool, text: String?) {
+        init(id: ObjectIdentifier, isDone: Bool, text: String?, sectionType: SectionType) {
             self.id = id
             self.isDone = isDone
             self.text = text
+            self.sectionType = sectionType
         }
     }
     
-    struct Comment: Hashable {
-        let id: UUID
-        let text: String?
+    struct NewMatter: Hashable {
+        let sectionType: SectionType
     }
     
     struct Section: DiffableSection, Hashable {
         
+//        static func == (lhs: DayViewModel.Section, rhs: DayViewModel.Section) -> Bool {
+//            return lhs.type == rhs.type
+//        }
+//        
+//        func hash(into hasher: inout Hasher) {
+//            hasher.combine(type)
+//        }
+        
         var header: String?
         let rows: [Row]
+        let type: SectionType
+    }
+    
+    enum SectionType: Int, Hashable {
+        
+        case necessery
+        case needed
+        case wanted
+        
+        init(_ matterType: MatterType) {
+            switch matterType {
+            case .necessary: self = .necessery
+            case .needed: self = .needed
+            case .wanted: self = .wanted
+            }
+        }
     }
     
     enum Row: Hashable {
         case matter(Matter)
-        case comment(Comment)
+        case newMatter(NewMatter)
     }
     
     let title: String?

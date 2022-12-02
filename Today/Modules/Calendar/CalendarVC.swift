@@ -16,7 +16,7 @@ protocol CalendarViewOutput: AnyObject {
 
 private enum Constants {
     
-    static let collectionInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    static let collectionInsets = UIEdgeInsets(top: 64, left: 16, bottom: 92, right: 16)
     
 }
 
@@ -35,7 +35,7 @@ final class CalendarVC: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        view.register(cellWithClass: CollectionCell<UILabel>.self)
+        view.register(cellWithClass: CalendarCVCell.self)
         view.register(CalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeader")
         view.contentInset = Constants.collectionInsets
         view.backgroundColor = UIColor.systemGroupedBackground
@@ -68,16 +68,19 @@ final class CalendarVC: UIViewController {
     
     private var viewModel: ViewModel?
     
-    private let calendar: Calendar = {
-        var calendar = Calendar.iso8601
-        calendar.firstWeekday = 2
-        return calendar
-    }()
+    private let calendar = Calendar.current
+    
+    private let selectedDate: Date
+    private let selectedDateComponents: Date.DateComponents
     
     private weak var output: Output?
     
-    init(output: Output? = nil) {
+    private var selectedCellIndexPath: IndexPath?
+    
+    init(selectedDate: Date, output: Output? = nil) {
         self.output = output
+        self.selectedDate = selectedDate
+        self.selectedDateComponents = selectedDate.dateComponents
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -116,21 +119,71 @@ final class CalendarVC: UIViewController {
     
     private func loadData() {
         let matters = loadMatters()
-        let _ = groupMatters(matters)
-        let data = generateSection(for: Date().noon)
-        self.viewModel = ViewModel(sections: [data])
+        
+        let currentDate = Date().noon
+        let currentDateComponents = currentDate.dateComponents
+        let maxMonthComponents = Date.DateComponents(
+            day: 1,
+            month: currentDateComponents.month,
+            year: currentDateComponents.year + 2
+        )
+        
+        var dates = Set<Date>(matters.compactMap { $0.date })
+        let datesComponents = Set<Date.DateComponents>(dates.map { $0.dateComponents })
+        
+        let minDateComponents = (dates.min() ?? currentDate).dateComponents
+        var minMonthComponents = Date.DateComponents(
+            day: 1,
+            month: minDateComponents.month,
+            year: minDateComponents.year
+        )
+        
+        var sections = [ViewModel.Section]()
+        
+        while minMonthComponents < maxMonthComponents {
+            let (section, firstDayOffset) = generateSection(for: minMonthComponents.date(), datesComponents)
+            sections.append(section)
+            if
+                minMonthComponents.month == selectedDateComponents.month,
+                    minMonthComponents.year == selectedDateComponents.year
+            {
+                selectedCellIndexPath = IndexPath(item: selectedDateComponents.day + firstDayOffset - 1, section: sections.count - 1)
+            }
+            if minMonthComponents.month < 12 {
+                minMonthComponents = .init(
+                    day: 1,
+                    month: minMonthComponents.month + 1,
+                    year: minMonthComponents.year
+                )
+            } else {
+                minMonthComponents = .init(
+                    day: 1,
+                    month: 1,
+                    year: minMonthComponents.year + 1
+                )
+            }
+        }
+        
+        let viewModel = ViewModel(sections: sections)
+        self.viewModel = viewModel
+        
         collectionView.reloadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let indexPath = self.selectedCellIndexPath {
+                self.collectionView.selectItem(
+                    at: indexPath,
+                    animated: false,
+                    scrollPosition: .centeredVertically
+                )
+                self.collectionView.scrollToItem(at: IndexPath(item: 0, section: indexPath.section), at: .top, animated: false)
+                
+            }
+        }
     }
     
     private func loadMatters() -> [Matter] {
         return Matter.fetchAll()
-    }
-    
-    private func groupMatters(_ matters: [Matter]) -> [[Matter]] {
-        return Dictionary(grouping: matters, by: { $0.section })
-            .values
-            .sorted(by: { $0[0].section < $1[0].section })
-            .map({ $0.sorted(by: { $0.order < $1.order }) })
     }
     
     // MARK: - Actions
@@ -145,10 +198,11 @@ final class CalendarVC: UIViewController {
         dismiss(animated: true)
     }
     
-    @objc
-    private func dateChanged() {
-        //        output?.didSelectDate(date)
-        dismiss(animated: true)
+    private func didSelectDate(_ date: Date) {
+        output?.didSelectDate(date)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.dismiss(animated: true)
+        }
     }
 }
 
@@ -163,13 +217,22 @@ extension CalendarVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(withClass: CollectionCell<UILabel>.self, for: indexPath)
+        let cell = collectionView.dequeueCell(withClass: CalendarCVCell.self, for: indexPath)
         guard let row = viewModel?[row: indexPath] else { return cell }
         switch row {
         case .day(let day):
-            cell.setup(for: day)
+            cell.setup(
+                .init(
+                    day: day.dateComponents.day,
+                    hasEvents: day.hasMatters,
+                    isWeekend: day.isWeekend
+                )
+            )
+            if day.dateComponents == selectedDateComponents {
+                selectedCellIndexPath = indexPath
+            }
         case .spacer:
-            cell.view.text = nil
+            cell.setup(nil)
         }
         return cell
     }
@@ -203,6 +266,8 @@ extension CalendarVC: UICollectionViewDelegate {
             case ViewModel.Row.day(let day) = row
         else { return }
         
+        let date = day.dateComponents.date()
+        didSelectDate(date)
     }
 }
 
@@ -221,16 +286,19 @@ extension CalendarVC: UICollectionViewDelegateFlowLayout {
 
 private extension CalendarVC {
     
-    func generateSection(for baseDate: Date) -> ViewModel.Section {
+    func generateSection(
+        for baseDate: Date,
+        _ datesWithNotes: Set<Date.DateComponents>
+    ) -> (ViewModel.Section, Int) {
         
         guard let metadata = try? monthMetadata(for: baseDate) else {
-            return .init(title: "", rows: [])
+            return (.init(title: "", rows: []), 0)
         }
         
         let title = DateFormatter.calendarMonthDate.string(from: baseDate)
         
         let numberOfDaysInMonth = metadata.numberOfDays
-        let firstDayWeekday = (metadata.firstDayWeekday + 6) % 7
+        var firstDayWeekday = (metadata.firstDayWeekday + 12) % 7 + 1
         let month = metadata.month
         let year = metadata.year
         
@@ -239,18 +307,18 @@ private extension CalendarVC {
             if day < 1 {
                 rows.append(.spacer)
             } else {
+                let dateComponents = Date.DateComponents(day: day, month: month, year: year)
+                let hasMatters = datesWithNotes.contains(dateComponents)
                 rows.append(
                     .day(.init(
-                        day: day,
-                        month: month,
-                        year: year,
+                        dateComponents: dateComponents,
                         isWeekend: !(1...5).contains((day + firstDayWeekday - 1) % 7),
-                        hasMatters: false
+                        hasMatters: hasMatters
                     ))
                 )
             }
         }
-        return .init(title: title, rows: rows)
+        return (.init(title: title, rows: rows), firstDayWeekday - 1)
     }
     
     func monthMetadata(for baseDate: Date) throws -> MonthMetadata {
@@ -286,29 +354,5 @@ private extension CalendarVC {
         let firstDayWeekday: Int
         let month: Int
         let year: Int
-    }
-}
-
-extension CollectionCell<UILabel> {
-    
-    private enum Constants {
-        static let font = UIFont.systemFont(ofSize: 20, weight: .regular)
-        static let fontSelected = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        static let defaultColor = UIColor.secondaryLabel
-        static let hasMattersColor = UIColor.label
-        static let weekendColor = UIColor(hex: 0xFF3B30)
-        static let selectedColor = UIColor(hex: 0x007AFF)
-    }
-    
-    func setup(for day: CalendarViewModel.Day) {
-        view.text = String(day.day)
-        view.textAlignment = .center
-        view.font = Constants.font
-        view.textColor = Constants.defaultColor
-        if day.isWeekend {
-            view.textColor = Constants.weekendColor
-        } else if day.hasMatters {
-            view.textColor = Constants.hasMattersColor
-        }
     }
 }

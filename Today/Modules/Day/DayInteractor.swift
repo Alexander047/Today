@@ -14,7 +14,7 @@ protocol DayInteractorInput: AnyObject {
 }
 
 protocol DayInteractorOutput: AnyObject {
-    func didTapCalendar()
+    func didTapCalendar(_ selectedDate: Date)
 }
 
 final class DayInteractor {
@@ -54,7 +54,12 @@ final class DayInteractor {
         return mattersDict
     }
     
-    @discardableResult private func makeMatter(_ text: String, _ date: Date, _ order: Int, _ section: Int) -> Matter {
+    @discardableResult private func makeMatter(
+        _ text: String,
+        _ date: Date,
+        _ order: Int,
+        _ section: Int
+    ) -> Matter {
         let matter = Matter(context: AppDelegate.viewContext)
         matter.text = text
         matter.date = date
@@ -105,7 +110,6 @@ extension DayInteractor: DayInteractorInput {
             title: titleFromDate(),
             matters: groupedMatters
         )
-        print("###\n\n", matters.compactMap({ $0.text }).joined(separator: "\n\n"), "\n\n")
     }
 }
 
@@ -119,11 +123,10 @@ extension DayInteractor: DayViewOutput {
             title: titleFromDate(),
             matters: groupedMatters
         )
-        print("###\n\n", matters.compactMap({ $0.text }).joined(separator: "\n\n"), "\n\n")
     }
     
     func didTapCalendar() {
-        output?.didTapCalendar()
+        output?.didTapCalendar(params.date)
     }
     
     func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool) {

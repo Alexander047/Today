@@ -39,8 +39,8 @@ final class AppCoordinator {
 
 extension AppCoordinator: DayInteractorOutput {
     
-    func didTapCalendar() {
-        let vc = CalendarVC(output: self)
+    func didTapCalendar(_ selectedDate: Date) {
+        let vc = CalendarVC(selectedDate: selectedDate, output: self)
         window?.rootViewController?.present(vc, animated: true)
     }
 }
