@@ -96,6 +96,7 @@ final class DayVC: UIViewController {
                         id: ObjectIdentifier(cell),
                         isDone: false,
                         text: nil,
+                        isEditable: true,
                         sectionType: model.sectionType
                     )
                 )
@@ -113,6 +114,7 @@ final class DayVC: UIViewController {
                 return cell
             }
         }
+        
         return dataSource
     }()
     
@@ -190,7 +192,6 @@ extension DayVC: UITableViewDelegate {
 extension DayVC: DayViewInput {
     
     func reloadData(_ viewModel: ViewModel) {
-        let isInitial = self.viewModel == nil
         guard viewModel != self.viewModel else { return }
         self.viewModel = viewModel
         title = viewModel.title

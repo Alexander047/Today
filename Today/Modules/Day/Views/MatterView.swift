@@ -109,6 +109,7 @@ class MatterView: UIView {
         textView.text = model.text
         updatePlaceholder()
         updateText(model.isDone)
+        isUserInteractionEnabled = model.isEditable
     }
 }
 

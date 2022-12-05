@@ -93,22 +93,38 @@ extension DayInteractor: DayInteractorInput {
             guard let self = self else { return }
             let newMatters = self.groupMatters(self.loadMatters())
             if newMatters != self.groupedMatters {
-                self.groupedMatters = newMatters
-                self.presenter.reloadData(
-                    title: self.titleFromDate(),
-                    matters: self.groupedMatters
-                )
+                self.reloadForDate(self.params.date)
             }
         }
     }
     
     func reloadForDate(_ date: Date) {
         params.date = date
-        let matters = loadMatters()
+        var matters = loadMatters()
+        let curNoon = Date().noon
+        if date.noon == curNoon {
+            // TODO: - добавь отображение прошлых незавершенных дел
+//            let pastMatters = Matter.fetchAll().filter {
+//                ($0.date.flatMap { date in date.noon < curNoon } ?? false) && !$0.done
+//            }
+//            matters.append(contentsOf: pastMatters)
+        }
         groupedMatters = groupMatters(matters)
         presenter.reloadData(
             title: titleFromDate(),
-            matters: groupedMatters
+            matters: groupedMatters,
+            date: self.params.date
+        )
+        updateSharedStorage()
+    }
+    
+    private func updateSharedStorage() {
+        let dateStr = DateFormatter.dateByDots.string(from: params.date)
+        let key = "Matters_\(dateStr)"
+        let mattersTextArray = groupedMatters.elapsedByPriority().map { $0.text }
+        
+        SharedDefaults.set(
+            mattersTextArray, forKey: key
         )
     }
 }
@@ -117,12 +133,7 @@ extension DayInteractor: DayInteractorInput {
 extension DayInteractor: DayViewOutput {
     
     func viewDidLoad() {
-        let matters = loadMatters()
-        groupedMatters = groupMatters(matters)
-        presenter.reloadData(
-            title: titleFromDate(),
-            matters: groupedMatters
-        )
+        reloadForDate(params.date)
     }
     
     func didTapCalendar() {
@@ -132,7 +143,7 @@ extension DayInteractor: DayViewOutput {
     func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool) {
         if
             let matterType = MatterType(rawValue: Int16(indexPath.section)),
-            let matter = groupMatters(loadMatters())[matterType]?[safe: indexPath.row]
+            let matter = groupedMatters[matterType]?[safe: indexPath.row]
         {
             if text?.isEmpty == false {
                 matter.text = text ?? ""

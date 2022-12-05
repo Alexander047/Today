@@ -10,7 +10,7 @@ import UIKit
 
 protocol DayPresenterInput: AnyObject {
     
-    func reloadData(title: String?, matters: [MatterType: [Matter]])
+    func reloadData(title: String?, matters: [MatterType: [Matter]], date: Date)
 }
 
 private enum Constants {
@@ -26,20 +26,23 @@ final class DayPresenter {
     
     weak var view: View?
     
-    private func makeRows(_ matters: [Matter], type: MatterType) -> [ViewModel.Row] {
+    private func makeRows(_ matters: [Matter], type: MatterType, isPast: Bool) -> [ViewModel.Row] {
         var rows = matters.map({
             ViewModel.Row.matter(
                 .init(
                     id: $0.id,
                     isDone: $0.done,
                     text: $0.text,
+                    isEditable: !isPast,
                     sectionType: .init(type)
                 )
             )
         })
-        rows.append(
-            .newMatter(.init(sectionType: .init(type)))
-        )
+        if !isPast {
+            rows.append(
+                .newMatter(.init(sectionType: .init(type)))
+            )
+        }
         return rows
     }
 }
@@ -47,20 +50,21 @@ final class DayPresenter {
 // MARK: - Day Presenter Input
 extension DayPresenter: DayPresenterInput {
     
-    func reloadData(title: String?, matters: [MatterType: [Matter]]) {
+    func reloadData(title: String?, matters: [MatterType: [Matter]], date: Date) {
+        let isPast = date.noon < Date().noon
         let title = title ?? "Today"
-        var rowsNecessary = makeRows([], type: .necessary)
-        var rowsNeeded = makeRows([], type: .needed)
-        var rowsWanted = makeRows([], type: .wanted)
+        var rowsNecessary = makeRows([], type: .necessary, isPast: isPast)
+        var rowsNeeded = makeRows([], type: .needed, isPast: isPast)
+        var rowsWanted = makeRows([], type: .wanted, isPast: isPast)
         
         if let matters = matters[.necessary] {
-            rowsNecessary = makeRows(matters, type: .necessary)
+            rowsNecessary = makeRows(matters, type: .necessary, isPast: isPast)
         }
         if let matters = matters[.needed] {
-            rowsNeeded = makeRows(matters, type: .needed)
+            rowsNeeded = makeRows(matters, type: .needed, isPast: isPast)
         }
         if let matters = matters[.wanted] {
-            rowsWanted = makeRows(matters, type: .wanted)
+            rowsWanted = makeRows(matters, type: .wanted, isPast: isPast)
         }
         view?.reloadData(ViewModel(title: title, sections: [
             .init(header: "Обязательно", rows: rowsNecessary, type: .necessery),

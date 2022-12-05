@@ -10,42 +10,10 @@ import Foundation
 
 struct DayViewModel: DiffableViewModel, Equatable {
     
-    class Matter: Hashable {
-        
-        static func == (lhs: DayViewModel.Matter, rhs: DayViewModel.Matter) -> Bool {
-            return lhs.id == rhs.id
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(self.id)
-        }
-        
-        let id: ObjectIdentifier
-        var isDone: Bool
-        var text: String?
-        let sectionType: SectionType
-        
-        init(id: ObjectIdentifier, isDone: Bool, text: String?, sectionType: SectionType) {
-            self.id = id
-            self.isDone = isDone
-            self.text = text
-            self.sectionType = sectionType
-        }
-    }
-    
-    struct NewMatter: Hashable {
-        let sectionType: SectionType
-    }
+    let title: String?
+    let sections: [Section]
     
     struct Section: DiffableSection, Hashable {
-        
-//        static func == (lhs: DayViewModel.Section, rhs: DayViewModel.Section) -> Bool {
-//            return lhs.type == rhs.type
-//        }
-//        
-//        func hash(into hasher: inout Hasher) {
-//            hasher.combine(type)
-//        }
         
         var header: String?
         let rows: [Row]
@@ -72,6 +40,32 @@ struct DayViewModel: DiffableViewModel, Equatable {
         case newMatter(NewMatter)
     }
     
-    let title: String?
-    let sections: [Section]
+    class Matter: Hashable {
+        
+        static func == (lhs: DayViewModel.Matter, rhs: DayViewModel.Matter) -> Bool {
+            return lhs.id == rhs.id
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+        
+        let id: ObjectIdentifier
+        var isDone: Bool
+        var text: String?
+        let isEditable: Bool
+        let sectionType: SectionType
+        
+        init(id: ObjectIdentifier, isDone: Bool, text: String?, isEditable: Bool, sectionType: SectionType) {
+            self.id = id
+            self.isDone = isDone
+            self.text = text
+            self.isEditable = isEditable
+            self.sectionType = sectionType
+        }
+    }
+    
+    struct NewMatter: Hashable {
+        let sectionType: SectionType
+    }
 }

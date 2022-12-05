@@ -14,6 +14,10 @@
 		9AA0CFB75BA5C9C76ABFFAC1 /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03ED53F74F0ACDEA03466449 /* CalendarVC.swift */; };
 		A15C3A786FF007DF83EC1BD9 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C5AF82AAAD93FF0DFC1DC1 /* CalendarViewModel.swift */; };
 		BC02BAA8295E85BF45076C6A /* DayInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D50644FCF28F629E3C5E5CC /* DayInteractor.swift */; };
+		CE0A86D4293E20DE00271CB8 /* GroupDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A86D3293E20DE00271CB8 /* GroupDefaults.swift */; };
+		CE0A86D6293E25F800271CB8 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A86D5293E25F800271CB8 /* Dictionary.swift */; };
+		CE0A86D7293E26C700271CB8 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9713E2255B501800C8BBDD /* DateFormatter.swift */; };
+		CE0A86D8293E26D700271CB8 /* GroupDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0A86D3293E20DE00271CB8 /* GroupDefaults.swift */; };
 		CE0B74F42562F700008DA000 /* Matters.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CE0B74F22562F700008DA000 /* Matters.xcdatamodeld */; };
 		CE0B74F82563BDB9008DA000 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B74F72563BDB9008DA000 /* Matter.swift */; };
 		CE0B74FE25641330008DA000 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0B74FD25641330008DA000 /* CloudKit.framework */; };
@@ -54,8 +58,41 @@
 		CEC3BED22566ACF600032E18 /* UITableView+Diffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC3BED12566ACF600032E18 /* UITableView+Diffable.swift */; };
 		CEC3BED62566AD0100032E18 /* Diffable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC3BED52566AD0100032E18 /* Diffable.swift */; };
 		CED46D0C2937B1EE0083A042 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED46D0B2937B1EE0083A042 /* Calendar.swift */; };
+		CED46D0E293A53850083A042 /* DayDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED46D0D293A53850083A042 /* DayDiffableDataSource.swift */; };
+		CED46D15293B75F90083A042 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED46D14293B75F80083A042 /* WidgetKit.framework */; };
+		CED46D17293B75F90083A042 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED46D16293B75F90083A042 /* SwiftUI.framework */; };
+		CED46D1A293B75F90083A042 /* widgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED46D19293B75F90083A042 /* widgetBundle.swift */; };
+		CED46D1C293B75F90083A042 /* widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED46D1B293B75F90083A042 /* widget.swift */; };
+		CED46D1F293B75FB0083A042 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CED46D1E293B75FB0083A042 /* Assets.xcassets */; };
+		CED46D21293B75FB0083A042 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CED46D1D293B75F90083A042 /* widget.intentdefinition */; };
+		CED46D22293B75FB0083A042 /* widget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = CED46D1D293B75F90083A042 /* widget.intentdefinition */; };
+		CED46D25293B75FB0083A042 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CED46D13293B75F80083A042 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D18D89133F84DC7261FADE04 /* DayAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9718F3D26D21B228814EE1BD /* DayAssembler.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CED46D23293B75FB0083A042 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE97137E255B01A900C8BBDD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CED46D12293B75F80083A042;
+			remoteInfo = widgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CED46D2A293B75FC0083A042 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CED46D25293B75FB0083A042 /* widgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		03ED53F74F0ACDEA03466449 /* CalendarVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
@@ -67,6 +104,9 @@
 		6C924FCEFDA8C17C7109673F /* DayVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayVC.swift; sourceTree = "<group>"; };
 		9718F3D26D21B228814EE1BD /* DayAssembler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DayAssembler.swift; sourceTree = "<group>"; };
 		A558BA78C13E3A4A75DBD0A9 /* Pods-Today.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today.debug.xcconfig"; path = "Target Support Files/Pods-Today/Pods-Today.debug.xcconfig"; sourceTree = "<group>"; };
+		CE0A86D2293E200D00271CB8 /* widgetExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widgetExtensionDebug.entitlements; sourceTree = "<group>"; };
+		CE0A86D3293E20DE00271CB8 /* GroupDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDefaults.swift; sourceTree = "<group>"; };
+		CE0A86D5293E25F800271CB8 /* Dictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		CE0B74F32562F700008DA000 /* Matters.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Matters.xcdatamodel; sourceTree = "<group>"; };
 		CE0B74F72563BDB9008DA000 /* Matter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matter.swift; sourceTree = "<group>"; };
 		CE0B74FD25641330008DA000 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -110,6 +150,17 @@
 		CEC3BED12566ACF600032E18 /* UITableView+Diffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Diffable.swift"; sourceTree = "<group>"; };
 		CEC3BED52566AD0100032E18 /* Diffable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Diffable.swift; sourceTree = "<group>"; };
 		CED46D0B2937B1EE0083A042 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		CED46D0D293A53850083A042 /* DayDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDiffableDataSource.swift; sourceTree = "<group>"; };
+		CED46D13293B75F80083A042 /* widgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = widgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CED46D14293B75F80083A042 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CED46D16293B75F90083A042 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CED46D19293B75F90083A042 /* widgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widgetBundle.swift; sourceTree = "<group>"; };
+		CED46D1B293B75F90083A042 /* widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = widget.swift; sourceTree = "<group>"; };
+		CED46D1D293B75F90083A042 /* widget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = widget.intentdefinition; sourceTree = "<group>"; };
+		CED46D1E293B75FB0083A042 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CED46D20293B75FB0083A042 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CED46D26293B75FC0083A042 /* widgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = widgetExtension.entitlements; sourceTree = "<group>"; };
+		CED46D2B293CDEC40083A042 /* TodayDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TodayDebug.entitlements; sourceTree = "<group>"; };
 		D7542CDBD09FE249B609E6EE /* Pods_Today.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Today.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -120,6 +171,15 @@
 			files = (
 				93083D70536FBBC364FE0456 /* Pods_Today.framework in Frameworks */,
 				CE0B74FE25641330008DA000 /* CloudKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED46D10293B75F80083A042 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED46D17293B75F90083A042 /* SwiftUI.framework in Frameworks */,
+				CED46D15293B75F90083A042 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +213,7 @@
 				3D50644FCF28F629E3C5E5CC /* DayInteractor.swift */,
 				18DD3E2F2508AC461AC15792 /* DayPresenter.swift */,
 				6C924FCEFDA8C17C7109673F /* DayVC.swift */,
+				CED46D0D293A53850083A042 /* DayDiffableDataSource.swift */,
 				65AD464C078596D8A27F236F /* DayViewModel.swift */,
 			);
 			path = Day;
@@ -163,6 +224,8 @@
 			children = (
 				CE0B74FD25641330008DA000 /* CloudKit.framework */,
 				D7542CDBD09FE249B609E6EE /* Pods_Today.framework */,
+				CED46D14293B75F80083A042 /* WidgetKit.framework */,
+				CED46D16293B75F90083A042 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -196,10 +259,13 @@
 		CE97137D255B01A900C8BBDD = {
 			isa = PBXGroup;
 			children = (
+				CE0A86D2293E200D00271CB8 /* widgetExtensionDebug.entitlements */,
+				CED46D26293B75FC0083A042 /* widgetExtension.entitlements */,
 				CE0B74F12562F50A008DA000 /* CoreData */,
 				CE971388255B01A900C8BBDD /* Today */,
 				CE9713C5255B4EFB00C8BBDD /* Extensions */,
 				CE9713AF255B40B300C8BBDD /* Resources */,
+				CED46D18293B75F90083A042 /* widget */,
 				CE971387255B01A900C8BBDD /* Products */,
 				37BCF2510638F6A977C6A2F5 /* Pods */,
 				A177525F654B0B019B59441A /* Frameworks */,
@@ -210,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				CE971386255B01A900C8BBDD /* Today.app */,
+				CED46D13293B75F80083A042 /* widgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -217,6 +284,7 @@
 		CE971388255B01A900C8BBDD /* Today */ = {
 			isa = PBXGroup;
 			children = (
+				CED46D2B293CDEC40083A042 /* TodayDebug.entitlements */,
 				CE9713A3255B1F8B00C8BBDD /* Today.entitlements */,
 				CE9713BD255B4E2800C8BBDD /* Core */,
 				CE9713B4255B45C000C8BBDD /* Views */,
@@ -304,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				CE9713DF255B501800C8BBDD /* Codable.swift */,
+				CE0A86D5293E25F800271CB8 /* Dictionary.swift */,
 				CE9713E0255B501800C8BBDD /* Collection.swift */,
 				CE9713E1255B501800C8BBDD /* Date.swift */,
 				CE9713E2255B501800C8BBDD /* DateFormatter.swift */,
@@ -317,8 +386,21 @@
 			isa = PBXGroup;
 			children = (
 				CEA9868325D19A1C00EC2099 /* Day.swift */,
+				CE0A86D3293E20DE00271CB8 /* GroupDefaults.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		CED46D18293B75F90083A042 /* widget */ = {
+			isa = PBXGroup;
+			children = (
+				CED46D19293B75F90083A042 /* widgetBundle.swift */,
+				CED46D1B293B75F90083A042 /* widget.swift */,
+				CED46D1D293B75F90083A042 /* widget.intentdefinition */,
+				CED46D1E293B75FB0083A042 /* Assets.xcassets */,
+				CED46D20293B75FB0083A042 /* Info.plist */,
+			);
+			path = widget;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,15 +416,34 @@
 				CE971383255B01A900C8BBDD /* Frameworks */,
 				CE971384255B01A900C8BBDD /* Resources */,
 				EE6C6D46EE844E8192A68625 /* [CP] Embed Pods Frameworks */,
+				CED46D2A293B75FC0083A042 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CED46D24293B75FB0083A042 /* PBXTargetDependency */,
 			);
 			name = Today;
 			productName = Today;
 			productReference = CE971386255B01A900C8BBDD /* Today.app */;
 			productType = "com.apple.product-type.application";
+		};
+		CED46D12293B75F80083A042 /* widgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CED46D27293B75FC0083A042 /* Build configuration list for PBXNativeTarget "widgetExtension" */;
+			buildPhases = (
+				CED46D0F293B75F80083A042 /* Sources */,
+				CED46D10293B75F80083A042 /* Frameworks */,
+				CED46D11293B75F80083A042 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = widgetExtension;
+			productName = widgetExtension;
+			productReference = CED46D13293B75F80083A042 /* widgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -350,11 +451,14 @@
 		CE97137E255B01A900C8BBDD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1210;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					CE971385255B01A900C8BBDD = {
 						CreatedOnToolsVersion = 12.1;
+					};
+					CED46D12293B75F80083A042 = {
+						CreatedOnToolsVersion = 14.1;
 					};
 				};
 			};
@@ -372,6 +476,7 @@
 			projectRoot = "";
 			targets = (
 				CE971385255B01A900C8BBDD /* Today */,
+				CED46D12293B75F80083A042 /* widgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -384,6 +489,14 @@
 				CE9713B1255B40ED00C8BBDD /* Colors.xcassets in Resources */,
 				CE971396255B01AA00C8BBDD /* LaunchScreen.storyboard in Resources */,
 				CE971393255B01AA00C8BBDD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED46D11293B75F80083A042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED46D1F293B75FB0083A042 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +574,7 @@
 				CE680233255B580D00A21A72 /* R.generated.swift in Sources */,
 				CE9713D0255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift in Sources */,
 				CE9713E9255B503E00C8BBDD /* CollectionCell.swift in Sources */,
+				CE0A86D6293E25F800271CB8 /* Dictionary.swift in Sources */,
 				CE9713EF255B51F600C8BBDD /* NSObject+ClassName.swift in Sources */,
 				CE97138A255B01A900C8BBDD /* AppDelegate.swift in Sources */,
 				CE9713DA255B4FD500C8BBDD /* UIView+FirstResponder.swift in Sources */,
@@ -477,6 +591,7 @@
 				CE9713D9255B4FD500C8BBDD /* UIView+ShimmerSubviews.swift in Sources */,
 				CE9713BF255B4E3100C8BBDD /* Module.swift in Sources */,
 				CE9713DC255B4FD500C8BBDD /* UICollectionView.swift in Sources */,
+				CED46D22293B75FB0083A042 /* widget.intentdefinition in Sources */,
 				CE97138C255B01A900C8BBDD /* SceneDelegate.swift in Sources */,
 				CE68024E255B5E3200A21A72 /* MatterView.swift in Sources */,
 				CE9713CE255B4F6B00C8BBDD /* UIFont+StaticFonts.swift in Sources */,
@@ -492,6 +607,7 @@
 				CE9713DB255B4FD500C8BBDD /* UITableView.swift in Sources */,
 				1C4E984480C0D897F4F94B90 /* DayViewModel.swift in Sources */,
 				CE4B95D525D13BFD0004C1BA /* CalendarHeaderView.swift in Sources */,
+				CED46D0E293A53850083A042 /* DayDiffableDataSource.swift in Sources */,
 				CE0B74F82563BDB9008DA000 /* Matter.swift in Sources */,
 				CEA9867F25D1852E00EC2099 /* CalendarCVCell.swift in Sources */,
 				CE9713D2255B4F6B00C8BBDD /* UIImage+Color.swift in Sources */,
@@ -499,10 +615,31 @@
 				CE0B750225645866008DA000 /* UIScrollView+KeyboardAppearance.swift in Sources */,
 				9AA0CFB75BA5C9C76ABFFAC1 /* CalendarVC.swift in Sources */,
 				A15C3A786FF007DF83EC1BD9 /* CalendarViewModel.swift in Sources */,
+				CE0A86D4293E20DE00271CB8 /* GroupDefaults.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CED46D0F293B75F80083A042 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE0A86D7293E26C700271CB8 /* DateFormatter.swift in Sources */,
+				CED46D21293B75FB0083A042 /* widget.intentdefinition in Sources */,
+				CED46D1A293B75F90083A042 /* widgetBundle.swift in Sources */,
+				CE0A86D8293E26D700271CB8 /* GroupDefaults.swift in Sources */,
+				CED46D1C293B75F90083A042 /* widget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CED46D24293B75FB0083A042 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CED46D12293B75F80083A042 /* widgetExtension */;
+			targetProxy = CED46D23293B75FB0083A042 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CE971394255B01AA00C8BBDD /* LaunchScreen.storyboard */ = {
@@ -638,11 +775,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A558BA78C13E3A4A75DBD0A9 /* Pods-Today.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Debug";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Today/Today.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Today/TodayDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -651,7 +789,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App.debug";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -664,11 +802,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 418DD5A9C2E03DBA3F8CE6C7 /* Pods-Today.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Today/Today.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -677,10 +816,72 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.5.0;
+				MARKETING_VERSION = 0.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		CED46D28293B75FC0083A042 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = widgetExtensionDebug.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YPJZ96LM2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App.debug.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CED46D29293B75FC0083A042 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = widgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YPJZ96LM2V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = widget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.SealSoft.Today-App.widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -703,6 +904,15 @@
 			buildConfigurations = (
 				CE97139B255B01AA00C8BBDD /* Debug */,
 				CE97139C255B01AA00C8BBDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CED46D27293B75FC0083A042 /* Build configuration list for PBXNativeTarget "widgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CED46D28293B75FC0083A042 /* Debug */,
+				CED46D29293B75FC0083A042 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
