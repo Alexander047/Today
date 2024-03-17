@@ -29,7 +29,7 @@ class MatterView: UIView {
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
-        textView.returnKeyType = .done
+        textView.returnKeyType = .next
         textView.backgroundColor = .clear
         textView.delegate = self
         textView.isScrollEnabled = false
@@ -109,7 +109,7 @@ class MatterView: UIView {
         textView.text = model.text
         updatePlaceholder()
         updateText(model.isDone)
-        isUserInteractionEnabled = model.isEditable
+        textView.isUserInteractionEnabled = model.isEditable
     }
 }
 
@@ -117,7 +117,11 @@ extension MatterView: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            textView.resignFirstResponder()
+            if let nextMatter = textView.next as? MatterView {
+                nextMatter.textView.becomeFirstResponder()
+            } else {
+                textView.resignFirstResponder()
+            }
             return false
         }
         return true

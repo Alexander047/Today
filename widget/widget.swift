@@ -64,13 +64,15 @@ struct widgetEntryView : View {
         case .accessoryRectangular:
             VStack (alignment: .leading) {
                 if !entry.matters.isEmpty {
-                    ForEach(entry.matters, id: \.self) { todo in
-                        HStack {
-                            Image(systemName: "circle")
+                    let matters = entry.matters[0..<(min(3, entry
+                        .matters.count))]
+                    ForEach(matters, id: \.self) { todo in
+//                        HStack {
+//                            Image(systemName: "circle")
                             Text(todo)
                                 .widgetAccentable()
                                 .privacySensitive()
-                        }
+//                        }
                     }
                 } else {
                     Text("✨ No tasks for you\n✨ Enjoy your day")
@@ -97,7 +99,7 @@ struct widget: Widget {
 
 struct widget_Previews: PreviewProvider {
     static var previews: some View {
-        widgetEntryView(entry: SimpleEntry(date: Date(), matters: ["Note 1", "Note 2"]))
+        widgetEntryView(entry: SimpleEntry(date: Date(), matters: ["Note 1", "Note 2", "Note 3", "Note 4"]))
             .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
             .previewDisplayName("Rectangular")
     }

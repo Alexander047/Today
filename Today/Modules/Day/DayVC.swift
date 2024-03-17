@@ -20,7 +20,9 @@ protocol DayViewOutput {
     func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool)
 }
 
-private enum Constants {}
+private enum Constants {
+    static let calendarButtonInset: CGFloat = 16
+}
 
 private typealias Section = DayViewModel.Section
 private typealias Row = DayViewModel.Row
@@ -57,7 +59,136 @@ final class DayVC: UIViewController {
         return button
     }()
     
-    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Section, Row> = {
+    private var calendarBottomConstraint: NSLayoutConstraint?
+    
+    private lazy var tableViewDataSource = buildTableViewDataSource()
+    
+    init(interactor: Output) {
+        self.interactor = interactor
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Setup UI
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupConstraints()
+        interactor.viewDidLoad()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = Color.page()
+        view.addSubview(tableView)
+        view.addSubview(calendarButton)
+        setupKeyboard()
+        setupKeyboardNotifications()
+    }
+    
+    private func setupConstraints() {
+        tableView.makeConstraints { $0.edges.equalToSuperView() }
+        calendarButton.makeConstraints { $0.trailing.equalTo(view.cm.safeArea).inset(Constants.calendarButtonInset) }
+        calendarBottomConstraint = calendarButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -Constants.calendarButtonInset)
+        NSLayoutConstraint.activate([calendarBottomConstraint!])
+    }
+    
+    // MARK: - Actions
+    @objc func didTapCalendar() {
+        interactor.didTapCalendar()
+    }
+}
+
+// MARK: - Day View Input
+extension DayVC: UITableViewDelegate {
+    
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return viewModel?.sections.count ?? .zero
+//    }
+    
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return  viewModel?.sections[safe: section]?.rows.count ?? .zero
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = UIView()
+        let label = UILabel()
+        label.font = .subtitle
+        label.textColor = Color.text_story()
+        label.text = viewModel?.sections[safe: section]?.header
+        header.addSubview(label)
+        label.makeConstraints { (pin) in
+            pin.leading.trailing.equalToSuperView().inset(16)
+            pin.top.bottom.equalToSuperView().inset(8)
+        }
+        return header
+    }
+}
+
+// MARK: - Keyboard
+extension DayVC {
+    
+    private func setupKeyboard() {
+        tableView.keyboardDismissMode = .onDrag
+        NotificationCenter.default.addObserver(tableView,
+                                               selector: #selector(tableView.didChangeKeyboardFrame),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+    }
+    
+    private func setupKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        // Subscribe to Keyboard Will Hide notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func keyboardWillShow(_ notification: NSNotification) {
+        animateWithKeyboard(notification: notification) { [weak self] kbFrame in
+            self?.calendarBottomConstraint?.constant = -kbFrame.height - Constants.calendarButtonInset
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide(_ notification: NSNotification) {
+        animateWithKeyboard(notification: notification) { [weak self] kbFrame in
+            self?.calendarBottomConstraint?.constant = -Constants.calendarButtonInset
+        }
+    }
+}
+
+// MARK: - Day View Input
+extension DayVC: DayViewInput {
+    
+    func reloadData(_ viewModel: ViewModel) {
+        guard viewModel != self.viewModel else { return }
+        self.viewModel = viewModel
+        title = viewModel.title
+        
+        let snapshot = snapshotForCurrentState()
+        tableViewDataSource.apply(snapshot, animatingDifferences: false)
+    }
+}
+
+// MARK: - Builders -
+
+extension DayVC {
+    
+    private func buildTableViewDataSource() -> UITableViewDiffableDataSource<Section, Row> {
         let dataSource = UITableViewDiffableDataSource<Section, Row>(tableView: tableView) { (tableView, indexPath, row) in
             
             switch row {
@@ -116,88 +247,6 @@ final class DayVC: UIViewController {
         }
         
         return dataSource
-    }()
-    
-    init(interactor: Output) {
-        self.interactor = interactor
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Setup UI
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        setupConstraints()
-        interactor.viewDidLoad()
-    }
-    
-    private func setupUI() {
-        view.backgroundColor = Color.page()
-        view.addSubview(tableView)
-        view.addSubview(calendarButton)
-        setupKeyboard()
-    }
-    
-    private func setupKeyboard() {
-        tableView.keyboardDismissMode = .onDrag
-        NotificationCenter.default.addObserver(tableView,
-                                               selector: #selector(tableView.didChangeKeyboardFrame),
-                                               name: UIResponder.keyboardWillChangeFrameNotification,
-                                               object: nil)
-    }
-    
-    private func setupConstraints() {
-        tableView.makeConstraints { $0.edges.equalToSuperView() }
-        calendarButton.makeConstraints { $0.trailing.bottom.equalTo(view.cm.safeArea).inset(16) }
-    }
-    
-    // MARK: - Actions
-    @objc func didTapCalendar() {
-        interactor.didTapCalendar()
-    }
-}
-
-// MARK: - Day View Input
-extension DayVC: UITableViewDelegate {
-    
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return viewModel?.sections.count ?? .zero
-//    }
-    
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return  viewModel?.sections[safe: section]?.rows.count ?? .zero
-//    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UIView()
-        let label = UILabel()
-        label.font = .subtitle
-        label.textColor = Color.text_story()
-        label.text = viewModel?.sections[safe: section]?.header
-        header.addSubview(label)
-        label.makeConstraints { (pin) in
-            pin.leading.trailing.equalToSuperView().inset(16)
-            pin.top.bottom.equalToSuperView().inset(8)
-        }
-        return header
-    }
-}
-
-// MARK: - Day View Input
-extension DayVC: DayViewInput {
-    
-    func reloadData(_ viewModel: ViewModel) {
-        guard viewModel != self.viewModel else { return }
-        self.viewModel = viewModel
-        title = viewModel.title
-        
-        let snapshot = snapshotForCurrentState()
-        tableViewDataSource.apply(snapshot, animatingDifferences: false)
     }
 }
 
