@@ -13,13 +13,24 @@ final class AppCoordinator {
     private weak var window: UIWindow?
     private weak var dayModule: DayInteractorInput?
     
+    private var currentDate: Date = Date().noon
+    
     public required init(_ window: UIWindow) {
         self.window = window
     }
 
     public func start() {
-        NotificationCenter.default.addObserver(self, selector: #selector(receivedUpdates),  name: .NSPersistentStoreRemoteChange, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(receivedUpdates),
+            name: .NSPersistentStoreRemoteChange,
+            object: nil
+        )
         showDayModule()
+    }
+    
+    public func didBecomeActive() {
+        dayModule?.reloadForDate(currentDate)
     }
     
     @objc public func receivedUpdates() {
@@ -27,7 +38,7 @@ final class AppCoordinator {
     }
     
     private func showDayModule() {
-        let module = DayAssembler.build(self, .init(date: Date().noon))
+        let module = DayAssembler.build(self, .init(date: currentDate))
         let nc = UINavigationController(rootViewController: module.view)
         nc.navigationBar.prefersLargeTitles = true
         nc.navigationBar.largeTitleTextAttributes = [.foregroundColor: Color.text_primary() ?? UIColor.black,
@@ -52,6 +63,7 @@ extension AppCoordinator: CalendarViewOutput {
     }
     
     func didSelectDate(_ date: Date) {
+        currentDate = date
         dayModule?.reloadForDate(date)
     }
 }

@@ -18,6 +18,7 @@ protocol DayViewOutput {
     func viewDidLoad()
     func didTapCalendar()
     func didEditMatter(at indexPath: IndexPath, text: String?, done: Bool)
+    func moveMatterToNextDay(at indexPath: IndexPath)
 }
 
 private enum Constants {
@@ -195,25 +196,30 @@ extension DayVC {
             case .matter(let model):
                 let cell = tableView.dequeueReusableCell(withClass: TableCell<MatterView>.self, for: indexPath)
                 cell.view.setup(model)
-                cell.view.didBeginEditing = { [weak self] in
+                cell.view.didBeginEditing = {
                     
                 }
                 cell.view.didChange = { [weak self] text in
                     self?.tableView.beginUpdates()
                     self?.tableView.endUpdates()
                 }
-                cell.view.didEndEditing = { [weak self] (text) in
+                cell.view.didEndEditing = { [weak self] text in
                     let cleanText = text?.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
                         matter.text = cleanText
                         self?.interactor.didEditMatter(at: indexPath, text: cleanText, done: matter.isDone)
                     }
                 }
-                cell.view.didToggleSelected = { [weak self] (done) in
+                cell.view.didToggleSelected = { [weak self] done in
                     self?.view.endEditing(true)
                     if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(let matter) = row {
                         matter.isDone = done
                         self?.interactor.didEditMatter(at: indexPath, text: matter.text, done: done)
+                    }
+                }
+                cell.view.moveTomorrow = { [weak self] in
+                    if let row = self?.viewModel?.sections[indexPath.section].rows[indexPath.row], case ViewModel.Row.matter(_) = row {
+                        self?.interactor.moveMatterToNextDay(at: indexPath)
                     }
                 }
                 cell.selectionStyle = .none

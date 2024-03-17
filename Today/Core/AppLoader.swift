@@ -28,6 +28,10 @@ final class AppLoader {
     public func receivedUpdates() {
         appCoordinator?.receivedUpdates()
     }
+    
+    public func didBecomeActive() {
+        appCoordinator?.didBecomeActive()
+    }
 }
 
 extension AppLoader {

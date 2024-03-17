@@ -152,8 +152,21 @@ extension DayInteractor: DayViewOutput {
                 deleteMatter(matter)
             }
         } else if let text = text, !text.isEmpty {
-            makeMatter(text, Date().noon, indexPath.row, indexPath.section)
+            makeMatter(text, params.date.noon, indexPath.row, indexPath.section)
         }
+        saveChanges()
+    }
+    
+    func moveMatterToNextDay(at indexPath: IndexPath) {
+        var dayComponent = DateComponents()
+        dayComponent.day = 1
+        let nextDate = Calendar.current.date(byAdding: dayComponent, to: params.date.noon) ?? params.date.noon
+        print("### nextDate: \(nextDate)")
+        guard
+            let matterType = MatterType(rawValue: Int16(indexPath.section)),
+            let matter = groupedMatters[matterType]?[safe: indexPath.row]
+        else { return }
+        matter.date = nextDate
         saveChanges()
     }
 }

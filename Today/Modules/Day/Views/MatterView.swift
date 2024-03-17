@@ -29,7 +29,9 @@ class MatterView: UIView {
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
-        textView.returnKeyType = .next
+        //  TODO: - ПЕРЕХОД К СЛЕДУЮЩЕМУ ДЕЛУ -
+//        textView.returnKeyType = .next
+        textView.returnKeyType = .done
         textView.backgroundColor = .clear
         textView.delegate = self
         textView.isScrollEnabled = false
@@ -40,7 +42,21 @@ class MatterView: UIView {
         return textView
     }()
     
+    private lazy var moveTomorrowButton: UIButton = {
+        let view = UIButton()
+        let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 24)
+        let image = UIImage(
+            systemName: "arrow.uturn.forward.circle",
+            withConfiguration: imageConfiguration
+        )
+        view.setImage(image, for: .normal)
+        view.addTarget(self, action: #selector(didTapMoveTomorrow), for: .touchUpInside)
+        view.isEnabled = false
+        return view
+    }()
+    
     var didToggleSelected: ((Bool) -> Void)?
+    var moveTomorrow: (() -> Void)?
     var didBeginEditing: (() -> Void)?
     var didChange: ((String?) -> Void)?
     var didEndEditing: ((String?) -> Void)?
@@ -61,6 +77,7 @@ class MatterView: UIView {
         addSubview(checkBox)
         addSubview(placeholderLabel)
         addSubview(textView)
+        addSubview(moveTomorrowButton)
     }
     
     private func setupConstraints() {
@@ -76,13 +93,20 @@ class MatterView: UIView {
         textView.makeConstraints { (pin) in
             pin.leading.equalTo(checkBox.cm.trailing).offset(12)
             pin.top.bottom.equalToSuperView().inset(8)
-            pin.trailing.equalToSuperView().inset(16)
+            pin.trailing.equalTo(moveTomorrowButton.cm.leading).inset(12)
             pin.bottom.greaterOrEqualTo(placeholderLabel.cm.bottom)
+        }
+        moveTomorrowButton.makeConstraints { (pin) in
+            pin.size.equalTo(CGSize(width: 24, height: 24))
+            pin.top.equalToSuperView().inset(8)
+            pin.trailing.equalToSuperView().inset(16)
         }
     }
     
     private func updatePlaceholder() {
-        let placeholderAlpha: CGFloat = textView.text.isEmpty == false ? 0 : 1
+        let textIsFilled = textView.text.isEmpty == false
+        moveTomorrowButton.isEnabled = textIsFilled
+        let placeholderAlpha: CGFloat = textIsFilled ? 0 : 1
         UIView.animate(withDuration: 0.1) { [weak self] in
             self?.placeholderLabel.alpha = placeholderAlpha
         }
@@ -111,17 +135,24 @@ class MatterView: UIView {
         updateText(model.isDone)
         textView.isUserInteractionEnabled = model.isEditable
     }
+    
+    // MARK: - ACTIONS -
+    
+    @objc private func didTapMoveTomorrow() {
+        moveTomorrow?()
+    }
 }
 
 extension MatterView: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            if let nextMatter = textView.next as? MatterView {
-                nextMatter.textView.becomeFirstResponder()
-            } else {
+            //  TODO: - ПЕРЕХОД К СЛЕДУЮЩЕМУ ДЕЛУ -
+//            if let nextMatter = textView.next as? MatterView {
+//                nextMatter.textView.becomeFirstResponder()
+//            } else {
                 textView.resignFirstResponder()
-            }
+//            }
             return false
         }
         return true

@@ -50,13 +50,27 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return viewContext
     }
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         loadApp()
         return true
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         //        appLoader?.receivedUpdates()
+    }
+    
+    func applicationDidBecomeActive(
+        _ application: UIApplication
+    ) {
+        print("### Did become active")
+        appLoader?.didBecomeActive()
     }
     
     private func loadApp() {
