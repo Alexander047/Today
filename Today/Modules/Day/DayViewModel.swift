@@ -11,12 +11,23 @@ import Foundation
 struct DayViewModel: DiffableViewModel, Equatable {
     
     let title: String?
-    let sections: [Section]
+    var sections: [Section]
+    
+    mutating func moveRow(
+        at sourceIndexPath: IndexPath,
+        to destinationIndexPath: IndexPath
+    ) {
+        guard let row = self[sourceIndexPath] 
+        else { return }
+        
+        sections[sourceIndexPath.section].rows.remove(at: sourceIndexPath.row)
+        sections[destinationIndexPath.section].rows.insert(row, at: destinationIndexPath.row)
+    }
     
     struct Section: DiffableSection, Hashable {
         
         var header: String?
-        let rows: [Row]
+        var rows: [Row]
         let type: SectionType
     }
     
@@ -25,6 +36,9 @@ struct DayViewModel: DiffableViewModel, Equatable {
         case necessery
         case needed
         case wanted
+        case necesseryButton
+        case neededButton
+        case wantedButton
         
         init(_ matterType: MatterType) {
             switch matterType {
@@ -33,11 +47,29 @@ struct DayViewModel: DiffableViewModel, Equatable {
             case .wanted: self = .wanted
             }
         }
+        
+        var isButton: Bool {
+            switch self {
+            case .necessery, .needed, .wanted:
+                return false
+            default:
+                return true
+            }
+        }
     }
     
     enum Row: Hashable {
         case matter(Matter)
         case newMatter(NewMatter)
+        
+        var id: Int {
+            switch self {
+            case .matter(let matter):
+                matter.id.hashValue
+            case .newMatter(let matter):
+                matter.sectionType.rawValue
+            }
+        }
     }
     
     class Matter: Hashable {

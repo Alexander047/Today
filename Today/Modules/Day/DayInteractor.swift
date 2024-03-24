@@ -169,4 +169,12 @@ extension DayInteractor: DayViewOutput {
         matter.date = nextDate
         saveChanges()
     }
+    
+    func didSwipeBackward() {
+        
+    }
+    
+    func didSwipeForward() {
+        
+    }
 }

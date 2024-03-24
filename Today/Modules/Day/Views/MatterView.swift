@@ -29,9 +29,8 @@ class MatterView: UIView {
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
-        //  TODO: - ПЕРЕХОД К СЛЕДУЮЩЕМУ ДЕЛУ -
-//        textView.returnKeyType = .next
-        textView.returnKeyType = .done
+        textView.returnKeyType = .next
+        textView.inputAccessoryView = toolbar
         textView.backgroundColor = .clear
         textView.delegate = self
         textView.isScrollEnabled = false
@@ -51,7 +50,25 @@ class MatterView: UIView {
         )
         view.setImage(image, for: .normal)
         view.addTarget(self, action: #selector(didTapMoveTomorrow), for: .touchUpInside)
-        view.isEnabled = false
+        view.isHidden = true
+        view.tintColor = Color.button_background_normal()
+        return view
+    }()
+    
+    private lazy var toolbar = {
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(doneTapped)
+        )
+        let spaceButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        let view = UIToolbar()
+        view.sizeToFit()
+        view.items = [spaceButton, doneButton]
         return view
     }()
     
@@ -60,6 +77,7 @@ class MatterView: UIView {
     var didBeginEditing: (() -> Void)?
     var didChange: ((String?) -> Void)?
     var didEndEditing: ((String?) -> Void)?
+    var didTapNext: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -105,7 +123,7 @@ class MatterView: UIView {
     
     private func updatePlaceholder() {
         let textIsFilled = textView.text.isEmpty == false
-        moveTomorrowButton.isEnabled = textIsFilled
+        moveTomorrowButton.isHidden = !textIsFilled
         let placeholderAlpha: CGFloat = textIsFilled ? 0 : 1
         UIView.animate(withDuration: 0.1) { [weak self] in
             self?.placeholderLabel.alpha = placeholderAlpha
@@ -141,18 +159,18 @@ class MatterView: UIView {
     @objc private func didTapMoveTomorrow() {
         moveTomorrow?()
     }
+    
+    @objc private func doneTapped() {
+        endEditing(true)
+    }
 }
 
 extension MatterView: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            //  TODO: - ПЕРЕХОД К СЛЕДУЮЩЕМУ ДЕЛУ -
-//            if let nextMatter = textView.next as? MatterView {
-//                nextMatter.textView.becomeFirstResponder()
-//            } else {
-                textView.resignFirstResponder()
-//            }
+            endEditing(true)
+            didTapNext?()
             return false
         }
         return true

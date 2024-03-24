@@ -17,7 +17,11 @@ struct Provider: IntentTimelineProvider {
         return SimpleEntry(date: entryDate, matters: matters ?? [])
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    func getSnapshot(
+        for configuration: ConfigurationIntent,
+        in context: Context,
+        completion: @escaping (SimpleEntry) -> ()
+    ) {
         let entryDate = Date()
         let dateStr = DateFormatter.dateByDots.string(from: entryDate)
         let matters = SharedDefaults.stringArray(forKey: "Matters_\(dateStr)")
@@ -25,7 +29,11 @@ struct Provider: IntentTimelineProvider {
         completion(entry)
     }
 
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    func getTimeline(
+        for configuration: ConfigurationIntent,
+        in context: Context,
+        completion: @escaping (Timeline<Entry>) -> ()
+    ) {
         var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -38,7 +46,10 @@ struct Provider: IntentTimelineProvider {
             entries.append(entry)
         }
 
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        let timeline = Timeline(
+            entries: entries,
+            policy: .after(Date().addingTimeInterval(60))
+        )
         completion(timeline)
     }
 }
@@ -62,25 +73,46 @@ struct widgetEntryView : View {
             .foregroundColor(Color("AccentColor"))
             .gaugeStyle(.accessoryCircularCapacity)
         case .accessoryRectangular:
-            VStack (alignment: .leading) {
-                if !entry.matters.isEmpty {
-                    let matters = entry.matters[0..<(min(3, entry
-                        .matters.count))]
-                    ForEach(matters, id: \.self) { todo in
-//                        HStack {
-//                            Image(systemName: "circle")
-                            Text(todo)
-                                .widgetAccentable()
-                                .privacySensitive()
-//                        }
+            if #available(iOSApplicationExtension 17.0, *) {
+                VStack (alignment: .leading) {
+                    if !entry.matters.isEmpty {
+                        let matters = entry.matters[0..<(min(3, entry
+                            .matters.count))]
+                        ForEach(matters, id: \.self) { todo in
+    //                        HStack {
+    //                            Image(systemName: "circle")
+                                Text(todo)
+                                    .widgetAccentable()
+                                    .privacySensitive()
+    //                        }
+                        }
+                    } else {
+                        Text("✨ No tasks for you\n✨ Enjoy your day")
                     }
-                } else {
-                    Text("✨ No tasks for you\n✨ Enjoy your day")
+                }
+                .containerBackground(for: .widget) {
+                    Color(.systemBackground)
+                }
+            } else {
+                VStack (alignment: .leading) {
+                    if !entry.matters.isEmpty {
+                        let matters = entry.matters[0..<(min(3, entry
+                            .matters.count))]
+                        ForEach(matters, id: \.self) { todo in
+    //                        HStack {
+    //                            Image(systemName: "circle")
+                                Text(todo)
+                                    .widgetAccentable()
+                                    .privacySensitive()
+    //                        }
+                        }
+                    } else {
+                        Text("✨ No tasks for you\n✨ Enjoy your day")
+                    }
                 }
             }
         default: Text("Not implemented")
         }
-        
     }
 }
 
@@ -88,8 +120,13 @@ struct widget: Widget {
     let kind: String = "widget"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        IntentConfiguration(
+            kind: kind,
+            intent: ConfigurationIntent.self,
+            provider: Provider()
+        ) { entry in
             widgetEntryView(entry: entry)
+                .background(Color(.systemBackground))
         }
         .configurationDisplayName("Today Widget")
         .description("This widget lets you see your relevant tasks and quickly launch the Today app")

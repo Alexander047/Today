@@ -38,11 +38,6 @@ final class DayPresenter {
                 )
             )
         })
-        if !isPast {
-            rows.append(
-                .newMatter(.init(sectionType: .init(type)))
-            )
-        }
         return rows
     }
 }
@@ -66,10 +61,16 @@ extension DayPresenter: DayPresenterInput {
         if let matters = matters[.wanted] {
             rowsWanted = makeRows(matters, type: .wanted, isPast: isPast)
         }
+        let rowsNecesseryButton = [ViewModel.Row.newMatter(.init(sectionType: .necesseryButton))]
+        let rowsNeededButton = [ViewModel.Row.newMatter(.init(sectionType: .neededButton))]
+        let rowsWantedButton = [ViewModel.Row.newMatter(.init(sectionType: .wantedButton))]
         view?.reloadData(ViewModel(title: title, sections: [
             .init(header: "Обязательно", rows: rowsNecessary, type: .necessery),
+            .init(rows: rowsNecesseryButton, type: .necesseryButton),
             .init(header: "Нужно", rows: rowsNeeded, type: .needed),
-            .init(header: "Хочется", rows: rowsWanted, type: .wanted)
+            .init(rows: rowsNeededButton, type: .neededButton),
+            .init(header: "Хочется", rows: rowsWanted, type: .wanted),
+            .init(rows: rowsWantedButton, type: .wantedButton)
         ]))
     }
 }

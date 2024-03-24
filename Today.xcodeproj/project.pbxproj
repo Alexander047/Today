@@ -22,6 +22,9 @@
 		CE0B74F82563BDB9008DA000 /* Matter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B74F72563BDB9008DA000 /* Matter.swift */; };
 		CE0B74FE25641330008DA000 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0B74FD25641330008DA000 /* CloudKit.framework */; };
 		CE0B750225645866008DA000 /* UIScrollView+KeyboardAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B750125645866008DA000 /* UIScrollView+KeyboardAppearance.swift */; };
+		CE17CE5C2BB066E1001DCA1C /* AddMatterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE17CE5B2BB066E1001DCA1C /* AddMatterView.swift */; };
+		CE17CE5E2BB06C90001DCA1C /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE17CE5D2BB06C90001DCA1C /* Blur.swift */; };
+		CE17CE5F2BB06CCA001DCA1C /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE17CE5D2BB06C90001DCA1C /* Blur.swift */; };
 		CE4B95D525D13BFD0004C1BA /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4B95D425D13BFD0004C1BA /* CalendarHeaderView.swift */; };
 		CE680233255B580D00A21A72 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE680232255B580D00A21A72 /* R.generated.swift */; };
 		CE680237255B584F00A21A72 /* R Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE680236255B584F00A21A72 /* R Typealias.swift */; };
@@ -112,6 +115,8 @@
 		CE0B74F72563BDB9008DA000 /* Matter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matter.swift; sourceTree = "<group>"; };
 		CE0B74FD25641330008DA000 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		CE0B750125645866008DA000 /* UIScrollView+KeyboardAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+KeyboardAppearance.swift"; sourceTree = "<group>"; };
+		CE17CE5B2BB066E1001DCA1C /* AddMatterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatterView.swift; sourceTree = "<group>"; };
+		CE17CE5D2BB06C90001DCA1C /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		CE4B95D425D13BFD0004C1BA /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		CE680232255B580D00A21A72 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
 		CE680236255B584F00A21A72 /* R Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R Typealias.swift"; sourceTree = "<group>"; };
@@ -254,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				CE68024D255B5E3200A21A72 /* MatterView.swift */,
+				CE17CE5B2BB066E1001DCA1C /* AddMatterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -402,6 +408,7 @@
 				CED46D1D293B75F90083A042 /* widget.intentdefinition */,
 				CED46D1E293B75FB0083A042 /* Assets.xcassets */,
 				CED46D20293B75FB0083A042 /* Info.plist */,
+				CE17CE5D2BB06C90001DCA1C /* Blur.swift */,
 			);
 			path = widget;
 			sourceTree = "<group>";
@@ -574,6 +581,7 @@
 			files = (
 				CE9713DD255B4FD500C8BBDD /* UIView+EasyLayout.swift in Sources */,
 				CE9713F2255B522500C8BBDD /* ShimmeringView.swift in Sources */,
+				CE17CE5E2BB06C90001DCA1C /* Blur.swift in Sources */,
 				CE680233255B580D00A21A72 /* R.generated.swift in Sources */,
 				CE9713D0255B4F6B00C8BBDD /* UIEdgeInsets+HV.swift in Sources */,
 				CE9713E9255B503E00C8BBDD /* CollectionCell.swift in Sources */,
@@ -620,6 +628,7 @@
 				9AA0CFB75BA5C9C76ABFFAC1 /* CalendarVC.swift in Sources */,
 				A15C3A786FF007DF83EC1BD9 /* CalendarViewModel.swift in Sources */,
 				CE0A86D4293E20DE00271CB8 /* GroupDefaults.swift in Sources */,
+				CE17CE5C2BB066E1001DCA1C /* AddMatterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +636,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE17CE5F2BB06CCA001DCA1C /* Blur.swift in Sources */,
 				CE0A86D7293E26C700271CB8 /* DateFormatter.swift in Sources */,
 				CED46D21293B75FB0083A042 /* widget.intentdefinition in Sources */,
 				CED46D1A293B75F90083A042 /* widgetBundle.swift in Sources */,
@@ -784,7 +794,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Today/TodayDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -812,7 +822,7 @@
 				CODE_SIGN_ENTITLEMENTS = Today/Today.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = YPJZ96LM2V;
 				INFOPLIST_FILE = Resources/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";

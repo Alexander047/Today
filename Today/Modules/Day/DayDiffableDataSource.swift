@@ -7,9 +7,23 @@
 
 import UIKit
 
-final class DayDiffableDataSource: UITableViewDiffableDataSource<DayViewModel.Section, DayViewModel.Row> {
+final class DayDiffableDataSource: UITableViewDiffableDataSource<DayViewModel.SectionType, Int> {
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+    override func tableView(
+        _ tableView: UITableView,
+        canEditRowAt indexPath: IndexPath
+    ) -> Bool {
+        let sectionType = snapshot().sectionIdentifiers[indexPath.section]
+        return !sectionType.isButton
+    }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
+        if editingStyle == .delete {
+            
+        }
     }
 }
